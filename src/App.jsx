@@ -301,7 +301,7 @@ export default function App() {
         {activeTab === "clubs" && (
           <div
             className="main-content-grid"
-            style={{ gridTemplateColumns: "1.2fr 2fr" }}
+            style={{ gridTemplateColumns: "1fr 2.8fr" }}
           >
             <div className="details-column">
               <button
@@ -333,9 +333,7 @@ export default function App() {
               </div>
             </div>
             <div className="charts-column">
-              <div className="glass-panel">
-                {selectedTeam && <WDLChart teamData={selectedTeam} />}
-              </div>
+              {selectedTeam && <WDLChart teamData={selectedTeam} />}
             </div>
           </div>
         )}

@@ -10,77 +10,97 @@ export default function useLeagueData() {
     async function fetchStandings() {
       try {
         setLoading(true);
-        // EPL league ID = 4328, Season = 2025-2026
+        // ESPN public v2 standings endpoint for English Premier League (eng.1)
         const response = await fetch(
-          'https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=4328&s=2025-2026'
+          "https://site.api.espn.com/apis/v2/sports/soccer/eng.1/standings",
         );
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const result = await response.json();
-        
-        if (result && result.table && result.table.length > 0) {
-          // Merge fetched data (top 5) with our 20-team fallback data
-          const merged = fallbackData.map((fallbackTeam) => {
-            // Find live team in the fetched table by idTeam
-            const liveTeam = result.table.find(
-              (item) => String(item.idTeam) === String(fallbackTeam.idTeam)
+        const entries = result?.children?.[0]?.standings?.entries;
+
+        if (entries && entries.length > 0) {
+          const parsed = entries.map((entry) => {
+            const team = entry.team;
+            const stats = entry.stats || [];
+
+            const getStatValue = (name) => {
+              const stat = stats.find((s) => s.name === name);
+              return stat ? String(stat.value) : "0";
+            };
+
+            const getStatDisplayValue = (name) => {
+              const stat = stats.find((s) => s.name === name);
+              return stat ? String(stat.displayValue) : "0";
+            };
+
+            const idTeam = String(team.id);
+            const strTeam = team.displayName;
+            // High-resolution logo from ESPN
+            const strBadge = team.logos?.[0]?.href || "";
+
+            const rank = getStatValue("rank");
+            const played = getStatValue("gamesPlayed");
+            const win = getStatValue("wins");
+            const draw = getStatValue("ties");
+            const loss = getStatValue("losses");
+            const goalsFor = getStatValue("pointsFor");
+            const goalsAgainst = getStatValue("pointsAgainst");
+            const goalDifference = getStatDisplayValue("pointDifferential");
+            const points = getStatValue("points");
+
+            // Find matching static data (for stadium, founded year, manager, etc.)
+            const fallbackTeam = fallbackData.find(
+              (t) =>
+                t.strTeam.toLowerCase() === strTeam.toLowerCase() ||
+                t.idTeam === idTeam ||
+                (idTeam === "359" && t.strTeam === "Arsenal") ||
+                (idTeam === "382" && t.strTeam === "Manchester City"),
             );
-            
-            if (liveTeam) {
-              return {
-                ...fallbackTeam,
-                intRank: liveTeam.intRank || fallbackTeam.intRank,
-                intPlayed: liveTeam.intPlayed || fallbackTeam.intPlayed,
-                intWin: liveTeam.intWin || fallbackTeam.intWin,
-                intDraw: liveTeam.intDraw || fallbackTeam.intDraw,
-                intLoss: liveTeam.intLoss || fallbackTeam.intLoss,
-                intGoalsFor: liveTeam.intGoalsFor || fallbackTeam.intGoalsFor,
-                intGoalsAgainst: liveTeam.intGoalsAgainst || fallbackTeam.intGoalsAgainst,
-                intGoalDifference: liveTeam.intGoalDifference || fallbackTeam.intGoalDifference,
-                intPoints: liveTeam.intPoints || fallbackTeam.intPoints,
-                strForm: liveTeam.strForm || fallbackTeam.strForm,
-                // Use live badge if available
-                strBadge: liveTeam.strBadge || fallbackTeam.strBadge,
-                isLive: true // Visual indicator that this team has live updated data
-              };
-            }
+
             return {
-              ...fallbackTeam,
-              isLive: false
+              idTeam,
+              strTeam,
+              strBadge,
+              intRank: rank,
+              intPlayed: played,
+              intWin: win,
+              intDraw: draw,
+              intLoss: loss,
+              intGoalsFor: goalsFor,
+              intGoalsAgainst: goalsAgainst,
+              intGoalDifference: goalDifference,
+              intPoints: points,
+              strForm: fallbackTeam?.strForm || "WWWWW",
+              info: fallbackTeam?.info || {
+                founded: "1880",
+                nickname: "Club",
+                manager: "Manager",
+                stadium: "Stadium",
+                capacity: "40,000",
+                city: "England",
+              },
+              squad: fallbackTeam?.squad || [],
+              history: fallbackTeam?.history || [],
             };
           });
 
-          // Sort by points desc, then goal difference desc, then goals for desc
-          const sorted = [...merged].sort((a, b) => {
-            const ptsA = parseInt(a.intPoints, 10) || 0;
-            const ptsB = parseInt(b.intPoints, 10) || 0;
-            if (ptsA !== ptsB) return ptsB - ptsA;
-
-            const gdA = parseInt(a.intGoalDifference, 10) || 0;
-            const gdB = parseInt(b.intGoalDifference, 10) || 0;
-            if (gdA !== gdB) return gdB - gdA;
-
-            const gfA = parseInt(a.intGoalsFor, 10) || 0;
-            const gfB = parseInt(b.intGoalsFor, 10) || 0;
-            return gfB - gfA;
-          });
-
-          // Re-calculate ranks based on sorted order
-          const ranked = sorted.map((team, index) => ({
-            ...team,
-            intRank: String(index + 1)
-          }));
-
-          setTableData(ranked);
+          // Sort by rank ascending
+          const sorted = [...parsed].sort(
+            (a, b) => parseInt(a.intRank, 10) - parseInt(b.intRank, 10),
+          );
+          setTableData(sorted);
         } else {
-          // If API structure was unexpected or empty, fall back directly
           setTableData(fallbackData);
         }
       } catch (err) {
-        console.error('Failed to fetch from TheSportsDB API, using fallback data:', err);
+        console.error(
+          "Failed to fetch from ESPN API, using fallback data:",
+          err,
+        );
         setError('Could not fetch real-time standings. Showing fallback data.');
         setTableData(fallbackData);
       } finally {

@@ -1,9 +1,125 @@
+import { useState, useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function WDLChart({ teamData }) {
+  const [liveRoster, setLiveRoster] = useState([]);
+  const [liveHistory, setLiveHistory] = useState([]);
+  const [loadingDetails, setLoadingDetails] = useState(false);
+  const [detailsError, setDetailsError] = useState(null);
+
+  useEffect(() => {
+    if (!teamData?.idTeam) return;
+
+    let active = true;
+
+    async function fetchClubDetails() {
+      try {
+        setLoadingDetails(true);
+        setDetailsError(null);
+
+        // Fetch roster and schedule concurrently
+        const [rosterRes, scheduleRes] = await Promise.all([
+          fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/${teamData.idTeam}/roster`),
+          fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/${teamData.idTeam}/schedule`)
+        ]);
+
+        if (!active) return;
+
+        let rosterData = [];
+        let historyData = [];
+
+        if (rosterRes.ok) {
+          const rosterJson = await rosterRes.json();
+          const athletes = rosterJson?.athletes || [];
+          rosterData = athletes.map((player) => ({
+            no: player.jersey || '-',
+            name: player.displayName || 'Player',
+            pos: player.position?.displayName || 'Position',
+            nat: player.citizenship || player.citizenshipCountry || '-',
+            age: player.age || '-'
+          }));
+        }
+
+        if (scheduleRes.ok) {
+          const scheduleJson = await scheduleRes.json();
+          const events = scheduleJson?.events || [];
+          
+          const completedMatches = events
+            .filter((event) => {
+              const comp = event.competitions?.[0];
+              return comp && comp.status?.type?.completed;
+            })
+            .map((event) => {
+              const comp = event.competitions[0];
+              const competitors = comp.competitors || [];
+              
+              const ourTeamComp = competitors.find(
+                (c) => String(c.team?.id) === String(teamData.idTeam)
+              );
+              const oppTeamComp = competitors.find(
+                (c) => String(c.team?.id) !== String(teamData.idTeam)
+              );
+
+              if (!ourTeamComp || !oppTeamComp) return null;
+
+              const ourScore = parseInt(ourTeamComp.score?.value || 0, 10);
+              const oppScore = parseInt(oppTeamComp.score?.value || 0, 10);
+              
+              let resultOutcome = 'D';
+              if (ourScore > oppScore) resultOutcome = 'W';
+              else if (ourScore < oppScore) resultOutcome = 'L';
+
+              const dateObj = new Date(event.date);
+              const formattedDate = dateObj.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+              });
+
+              return {
+                opponent: oppTeamComp.team?.displayName || 'Opponent',
+                score: `${ourScore}-${oppScore}`,
+                date: formattedDate,
+                round: comp.status?.type?.detail || 'FT',
+                wasHome: ourTeamComp.homeAway === 'home',
+                result: resultOutcome
+              };
+            })
+            .filter(Boolean)
+            .reverse() // Most recent first
+            .slice(0, 5);
+
+          historyData = completedMatches;
+        }
+
+        if (active) {
+          setLiveRoster(rosterData.length > 0 ? rosterData : teamData.squad);
+          setLiveHistory(historyData.length > 0 ? historyData : teamData.history);
+        }
+      } catch (err) {
+        console.error('Failed to fetch live club details:', err);
+        if (active) {
+          setDetailsError('Could not fetch real-time club details. Showing fallback.');
+          setLiveRoster(teamData.squad || []);
+          setLiveHistory(teamData.history || []);
+        }
+      } finally {
+        if (active) {
+          setLoadingDetails(false);
+        }
+      }
+    }
+
+    fetchClubDetails();
+
+    return () => {
+      active = false;
+    };
+  }, [teamData?.idTeam, teamData?.squad, teamData?.history]);
+
   if (!teamData) {
     return (
       <div className="wdl-chart-placeholder">
@@ -81,10 +197,8 @@ export default function WDLChart({ teamData }) {
     cutout: '65%'
   };
 
-  const formList = teamData.strForm ? teamData.strForm.split('') : [];
-
   return (
-    <div className="team-detail-card" style={{ background: 'transparent', border: 'none', padding: 0, boxShadow: 'none' }}>
+    <div className="team-detail-card" style={{ background: 'transparent', border: 'none', padding: 0, boxShadow: 'none', gap: '24px' }}>
       {/* Profile Header */}
       <div className="team-detail-header" style={{ width: '100%' }}>
         <div className="team-badge-name">
@@ -108,87 +222,158 @@ export default function WDLChart({ teamData }) {
         </div>
       </div>
 
-      <div className="team-detail-body">
-        {/* Doughnut WDL Visual */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '8px' }}>
-          <span className="squad-title" style={{ fontSize: '11px', alignSelf: 'flex-start' }}>Match Outcomes Breakdown</span>
-          <div className="wdl-chart-wrapper" style={{ height: '170px', width: '100%', position: 'relative' }}>
+      {/* Error warning for details */}
+      {detailsError && (
+        <div className="glass-panel" style={{ borderColor: 'rgba(255, 0, 127, 0.3)', padding: '10px 16px', background: 'rgba(25, 4, 20, 0.6)', width: '100%', fontSize: '12px' }}>
+          <span style={{ color: '#ff007f', marginRight: '6px' }}>⚠️</span>
+          {detailsError}
+        </div>
+      )}
+
+      {/* Grid of details: upper section */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', width: '100%' }}>
+        
+        {/* Outcomes & Performance box */}
+        <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <h4 className="squad-title" style={{ fontSize: '12px' }}>Match Outcomes & Performance</h4>
+          <div className="wdl-chart-wrapper" style={{ height: '150px', width: '100%', position: 'relative' }}>
             <Doughnut data={chartData} options={options} />
           </div>
-        </div>
-
-        {/* Regular Statistics Grid */}
-        <div className="team-stats-grid">
-          <div className="stat-row">
-            <span className="stat-label">Played Matches</span>
-            <span className="stat-val">{teamData.intPlayed}</span>
-          </div>
-          <div className="stat-row">
-            <span className="stat-label">Total Points</span>
-            <span className="stat-val points-highlight" style={{ fontSize: '18px' }}>{teamData.intPoints}</span>
-          </div>
-          <div className="stat-row">
-            <span className="stat-label">Goal Difference</span>
-            <span className={`stat-val ${parseInt(teamData.intGoalDifference, 10) >= 0 ? 'pos-gd' : 'neg-gd'}`}>
-              {parseInt(teamData.intGoalDifference, 10) >= 0 ? '+' : ''}
-              {teamData.intGoalDifference}
-            </span>
-          </div>
-          <div className="form-section">
-            <span className="stat-label">Recent Form</span>
-            <div className="form-dots">
-              {formList.map((outcome, idx) => {
-                let statusClass = 'neutral';
-                if (outcome === 'W') statusClass = 'win';
-                if (outcome === 'L') statusClass = 'loss';
-                return (
-                  <span key={idx} className={`form-dot ${statusClass}`} title={outcome}>
-                    {outcome}
-                  </span>
-                );
-              })}
+          <div className="team-stats-grid" style={{ marginTop: '8px' }}>
+            <div className="stat-row">
+              <span className="stat-label">Win Rate</span>
+              <span className="stat-val points-highlight">{winRate}%</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Avg Goals Scored</span>
+              <span className="stat-val" style={{ color: 'var(--color-pl-cyan)' }}>{avgGoalsScored}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Avg Goals Conceded</span>
+              <span className="stat-val" style={{ color: 'var(--color-pl-pink)' }}>{avgGoalsConceded}</span>
             </div>
           </div>
         </div>
 
-        {/* Advanced Calculations Section */}
-        <div className="team-stats-grid">
-          <span className="squad-title" style={{ fontSize: '11px', alignSelf: 'flex-start', marginTop: '6px' }}>Calculated Performance Metrics</span>
-          <div className="metrics-grid">
-            <div className="metric-box">
-              <span className="stat-label" style={{ fontSize: '11px' }}>Win Rate</span>
-              <span className="metric-value-large">{winRate}%</span>
-            </div>
-            <div className="metric-box">
-              <span className="stat-label" style={{ fontSize: '11px' }}>Draw Rate</span>
-              <span className="metric-value-large" style={{ color: 'rgba(255,255,255,0.7)' }}>{drawRate}%</span>
-            </div>
-            <div className="metric-box">
-              <span className="stat-label" style={{ fontSize: '11px' }}>Avg Goals Scored</span>
-              <span className="metric-value-large" style={{ color: 'var(--color-pl-cyan)' }}>{avgGoalsScored}</span>
-            </div>
-            <div className="metric-box">
-              <span className="stat-label" style={{ fontSize: '11px' }}>Avg Goals Conceded</span>
-              <span className="metric-value-large" style={{ color: 'var(--color-pl-pink)' }}>{avgGoalsConceded}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Star Players Roster list */}
-        {teamData.squad && teamData.squad.length > 0 && (
-          <div className="squad-container">
-            <h4 className="squad-title">Key Players & Roster</h4>
-            <div className="squad-list">
-              {teamData.squad.map((player) => (
-                <div key={player.name} className="squad-item">
-                  <span className="squad-no">#{player.no}</span>
-                  <span className="squad-name">{player.name}</span>
-                  <span className="squad-pos">{player.pos}</span>
-                </div>
-              ))}
+        {/* Club Information Directory Card */}
+        {teamData.info && (
+          <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <h4 className="squad-title" style={{ fontSize: '12px' }}>Club Information</h4>
+            <div className="team-stats-grid">
+              <div className="stat-row">
+                <span className="stat-label">Nickname</span>
+                <span className="stat-val">{teamData.info.nickname}</span>
+              </div>
+              <div className="stat-row">
+                <span className="stat-label">Founded</span>
+                <span className="stat-val">{teamData.info.founded}</span>
+              </div>
+              <div className="stat-row">
+                <span className="stat-label">Manager</span>
+                <span className="stat-val">{teamData.info.manager}</span>
+              </div>
+              <div className="stat-row">
+                <span className="stat-label">Stadium</span>
+                <span className="stat-val">{teamData.info.stadium}</span>
+              </div>
+              <div className="stat-row">
+                <span className="stat-label">Capacity</span>
+                <span className="stat-val">{teamData.info.capacity}</span>
+              </div>
+              <div className="stat-row">
+                <span className="stat-label">City</span>
+                <span className="stat-val">{teamData.info.city}</span>
+              </div>
             </div>
           </div>
         )}
+      </div>
+
+      {/* Grid of details: lower section */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', width: '100%' }}>
+        
+        {/* Past Match History Card */}
+        <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px', position: 'relative' }}>
+          <h4 className="squad-title" style={{ fontSize: '12px' }}>Match History (Last 5 Games)</h4>
+          
+          {loadingDetails ? (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '150px' }}>
+              <div className="spinner" style={{ width: '24px', height: '24px', borderWidth: '2px' }}></div>
+            </div>
+          ) : liveHistory && liveHistory.length > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {liveHistory.map((match, idx) => {
+                let resClass = 'neutral';
+                if (match.result === 'W') resClass = 'win';
+                if (match.result === 'L') resClass = 'loss';
+                
+                return (
+                  <div key={idx} className="stat-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                      <span style={{ fontSize: '13px', fontWeight: '600' }}>
+                        {match.opponent} {match.wasHome ? '(Home)' : '(Away)'}
+                      </span>
+                      <span style={{ fontSize: '10px', color: 'var(--color-text-muted)' }}>
+                        {match.round} - {match.date}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '13px', fontWeight: '700' }}>{match.score}</span>
+                      <span className={`form-dot ${resClass}`} style={{ width: '18px', height: '18px', fontSize: '9px' }}>
+                        {match.result}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-muted)' }}>
+              No history found.
+            </div>
+          )}
+        </div>
+
+        {/* Player Roster Card */}
+        <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px', position: 'relative' }}>
+          <h4 className="squad-title" style={{ fontSize: '12px' }}>Key Squad Roster</h4>
+          
+          {loadingDetails ? (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '150px' }}>
+              <div className="spinner" style={{ width: '24px', height: '24px', borderWidth: '2px' }}></div>
+            </div>
+          ) : liveRoster && liveRoster.length > 0 ? (
+            <div style={{ overflowY: 'auto', maxHeight: '250px' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left' }}>
+                <thead>
+                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                    <th style={{ padding: '6px 4px', color: 'var(--color-text-muted)' }}>No</th>
+                    <th style={{ padding: '6px 4px', color: 'var(--color-text-muted)' }}>Name</th>
+                    <th style={{ padding: '6px 4px', color: 'var(--color-text-muted)' }}>Pos</th>
+                    <th style={{ padding: '6px 4px', color: 'var(--color-text-muted)' }}>Nat</th>
+                    <th style={{ padding: '6px 4px', color: 'var(--color-text-muted)', textAlign: 'center' }}>Age</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {liveRoster.map((player, idx) => (
+                    <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                      <td style={{ padding: '8px 4px', fontWeight: '600', color: 'var(--color-pl-green)' }}>{player.no}</td>
+                      <td style={{ padding: '8px 4px', fontWeight: '500' }}>{player.name}</td>
+                      <td style={{ padding: '8px 4px', color: 'var(--color-text-secondary)' }}>{player.pos}</td>
+                      <td style={{ padding: '8px 4px', color: 'var(--color-text-muted)' }}>{player.nat}</td>
+                      <td style={{ padding: '8px 4px', textAlign: 'center', color: 'var(--color-text-secondary)' }}>{player.age}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-muted)' }}>
+              No players found.
+            </div>
+          )}
+        </div>
+
       </div>
     </div>
   );

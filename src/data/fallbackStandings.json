@@ -1,442 +1,254 @@
 [
   {
-    "intRank": "1",
-    "idTeam": "133604",
+    "idTeam": "359",
     "strTeam": "Arsenal",
-    "intPlayed": "38",
-    "intWin": "26",
-    "intDraw": "7",
-    "intLoss": "5",
-    "intGoalsFor": "71",
-    "intGoalsAgainst": "27",
-    "intGoalDifference": "44",
-    "intPoints": "85",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/uyhbfe1612467038.png",
-    "strForm": "WWWWW",
-    "squad": [
-      { "name": "Bukayo Saka", "pos": "Forward", "no": "7" },
-      { "name": "Martin Ødegaard", "pos": "Midfielder", "no": "8" },
-      { "name": "Declan Rice", "pos": "Midfielder", "no": "41" },
-      { "name": "William Saliba", "pos": "Defender", "no": "2" },
-      { "name": "David Raya", "pos": "Goalkeeper", "no": "22" }
-    ]
+    "info": {
+      "founded": "1886",
+      "nickname": "The Gunners",
+      "manager": "Mikel Arteta",
+      "stadium": "Emirates Stadium",
+      "capacity": "60,704",
+      "city": "London"
+    }
   },
   {
-    "intRank": "2",
-    "idTeam": "133613",
+    "idTeam": "382",
     "strTeam": "Manchester City",
-    "intPlayed": "38",
-    "intWin": "23",
-    "intDraw": "9",
-    "intLoss": "6",
-    "intGoalsFor": "77",
-    "intGoalsAgainst": "35",
-    "intGoalDifference": "42",
-    "intPoints": "78",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png",
-    "strForm": "LDWWD",
-    "squad": [
-      { "name": "Erling Haaland", "pos": "Forward", "no": "9" },
-      { "name": "Phil Foden", "pos": "Midfielder", "no": "47" },
-      { "name": "Kevin De Bruyne", "pos": "Midfielder", "no": "17" },
-      { "name": "Rodri", "pos": "Midfielder", "no": "16" },
-      { "name": "Ederson", "pos": "Goalkeeper", "no": "31" }
-    ]
+    "info": {
+      "founded": "1880",
+      "nickname": "The Citizens",
+      "manager": "Pep Guardiola",
+      "stadium": "Etihad Stadium",
+      "capacity": "53,400",
+      "city": "Manchester"
+    }
   },
   {
-    "intRank": "3",
-    "idTeam": "133612",
+    "idTeam": "360",
     "strTeam": "Manchester United",
-    "intPlayed": "38",
-    "intWin": "20",
-    "intDraw": "11",
-    "intLoss": "7",
-    "intGoalsFor": "69",
-    "intGoalsAgainst": "50",
-    "intGoalDifference": "19",
-    "intPoints": "71",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/xzqdr11517660252.png",
-    "strForm": "WWDWW",
-    "squad": [
-      { "name": "Bruno Fernandes", "pos": "Midfielder", "no": "8" },
-      { "name": "Marcus Rashford", "pos": "Forward", "no": "10" },
-      { "name": "Rasmus Højlund", "pos": "Forward", "no": "9" },
-      { "name": "Matthijs de Ligt", "pos": "Defender", "no": "4" },
-      { "name": "André Onana", "pos": "Goalkeeper", "no": "24" }
-    ]
+    "info": {
+      "founded": "1878",
+      "nickname": "The Red Devils",
+      "manager": "Ruben Amorim",
+      "stadium": "Old Trafford",
+      "capacity": "74,310",
+      "city": "Manchester"
+    }
   },
   {
-    "intRank": "4",
-    "idTeam": "133601",
-    "strTeam": "Aston Villa",
-    "intPlayed": "38",
-    "intWin": "19",
-    "intDraw": "8",
-    "intLoss": "11",
-    "intGoalsFor": "56",
-    "intGoalsAgainst": "49",
-    "intGoalDifference": "7",
-    "intPoints": "65",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/jykrpv1717309891.png",
-    "strForm": "WWDLL",
-    "squad": [
-      { "name": "Ollie Watkins", "pos": "Forward", "no": "11" },
-      { "name": "Morgan Rogers", "pos": "Midfielder", "no": "27" },
-      { "name": "John McGinn", "pos": "Midfielder", "no": "7" },
-      { "name": "Ezri Konsa", "pos": "Defender", "no": "4" },
-      { "name": "Emiliano Martínez", "pos": "Goalkeeper", "no": "23" }
-    ]
-  },
-  {
-    "intRank": "5",
-    "idTeam": "133602",
-    "strTeam": "Liverpool",
-    "intPlayed": "38",
-    "intWin": "17",
-    "intDraw": "9",
-    "intLoss": "12",
-    "intGoalsFor": "63",
-    "intGoalsAgainst": "53",
-    "intGoalDifference": "10",
-    "intPoints": "60",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/kfaher1737969724.png",
-    "strForm": "DLDLW",
-    "squad": [
-      { "name": "Mohamed Salah", "pos": "Forward", "no": "11" },
-      { "name": "Luis Díaz", "pos": "Forward", "no": "7" },
-      { "name": "Dominik Szoboszlai", "pos": "Midfielder", "no": "8" },
-      { "name": "Virgil van Dijk", "pos": "Defender", "no": "4" },
-      { "name": "Alisson Becker", "pos": "Goalkeeper", "no": "1" }
-    ]
-  },
-  {
-    "intRank": "6",
-    "idTeam": "133933",
-    "strTeam": "Bournemouth",
-    "intPlayed": "38",
-    "intWin": "13",
-    "intDraw": "18",
-    "intLoss": "7",
-    "intGoalsFor": "58",
-    "intGoalsAgainst": "54",
-    "intGoalDifference": "4",
-    "intPoints": "57",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/y08nak1534071116.png",
-    "strForm": "DWDWD",
-    "squad": [
-      { "name": "Antoine Semenyo", "pos": "Forward", "no": "24" },
-      { "name": "Junior Kroupi", "pos": "Forward", "no": "10" },
-      { "name": "Justin Kluivert", "pos": "Midfielder", "no": "19" },
-      { "name": "Illia Zabarnyi", "pos": "Defender", "no": "27" },
-      { "name": "Kepa Arrizabalaga", "pos": "Goalkeeper", "no": "13" }
-    ]
-  },
-  {
-    "intRank": "7",
-    "idTeam": "133630",
-    "strTeam": "Sunderland",
-    "intPlayed": "38",
-    "intWin": "14",
-    "intDraw": "12",
-    "intLoss": "12",
-    "intGoalsFor": "42",
-    "intGoalsAgainst": "48",
-    "intGoalDifference": "-6",
-    "intPoints": "54",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/tprtus1448813498.png",
-    "strForm": "WLDWD",
-    "squad": [
-      { "name": "Jobe Bellingham", "pos": "Midfielder", "no": "7" },
-      { "name": "Romaine Mundle", "pos": "Forward", "no": "14" },
-      { "name": "Dan Ballard", "pos": "Defender", "no": "5" },
-      { "name": "Patrick Roberts", "pos": "Midfielder", "no": "10" },
-      { "name": "Anthony Patterson", "pos": "Goalkeeper", "no": "1" }
-    ]
-  },
-  {
-    "intRank": "8",
-    "idTeam": "133617",
-    "strTeam": "Brighton & Hove Albion",
-    "intPlayed": "38",
-    "intWin": "14",
-    "intDraw": "11",
-    "intLoss": "13",
-    "intGoalsFor": "52",
-    "intGoalsAgainst": "46",
-    "intGoalDifference": "6",
-    "intPoints": "53",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/zn0x7h1605371909.png",
-    "strForm": "LLDWD",
-    "squad": [
-      { "name": "Danny Welbeck", "pos": "Forward", "no": "18" },
-      { "name": "Kaoru Mitoma", "pos": "Forward", "no": "22" },
-      { "name": "João Pedro", "pos": "Forward", "no": "9" },
-      { "name": "Lewis Dunk", "pos": "Defender", "no": "5" },
-      { "name": "Bart Verbruggen", "pos": "Goalkeeper", "no": "1" }
-    ]
-  },
-  {
-    "intRank": "9",
-    "idTeam": "134267",
-    "strTeam": "Brentford",
-    "intPlayed": "38",
-    "intWin": "14",
-    "intDraw": "11",
-    "intLoss": "13",
-    "intGoalsFor": "55",
-    "intGoalsAgainst": "52",
-    "intGoalDifference": "3",
-    "intPoints": "53",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/grv1aw1546453779.png",
-    "strForm": "WLDWD",
-    "squad": [
-      { "name": "Igor Thiago", "pos": "Forward", "no": "9" },
-      { "name": "Bryan Mbeumo", "pos": "Forward", "no": "19" },
-      { "name": "Christian Nørgaard", "pos": "Midfielder", "no": "6" },
-      { "name": "Ethan Pinnock", "pos": "Defender", "no": "5" },
-      { "name": "Mark Flekken", "pos": "Goalkeeper", "no": "1" }
-    ]
-  },
-  {
-    "intRank": "10",
-    "idTeam": "133610",
+    "idTeam": "362",
     "strTeam": "Chelsea",
-    "intPlayed": "38",
-    "intWin": "14",
-    "intDraw": "10",
-    "intLoss": "14",
-    "intGoalsFor": "58",
-    "intGoalsAgainst": "52",
-    "intGoalDifference": "6",
-    "intPoints": "52",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/yvwvtu1448813215.png",
-    "strForm": "DLDLW",
-    "squad": [
-      { "name": "Cole Palmer", "pos": "Midfielder", "no": "20" },
-      { "name": "Nicolas Jackson", "pos": "Forward", "no": "15" },
-      { "name": "Enzo Fernández", "pos": "Midfielder", "no": "8" },
-      { "name": "Levi Colwill", "pos": "Defender", "no": "6" },
-      { "name": "Robert Sánchez", "pos": "Goalkeeper", "no": "1" }
-    ]
+    "info": {
+      "founded": "1905",
+      "nickname": "The Blues",
+      "manager": "Enzo Maresca",
+      "stadium": "Stamford Bridge",
+      "capacity": "40,341",
+      "city": "London"
+    }
   },
   {
-    "intRank": "11",
-    "idTeam": "133611",
-    "strTeam": "Fulham",
-    "intPlayed": "38",
-    "intWin": "15",
-    "intDraw": "7",
-    "intLoss": "16",
-    "intGoalsFor": "47",
-    "intGoalsAgainst": "51",
-    "intGoalDifference": "-4",
-    "intPoints": "52",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/xwwvyt1448811086.png",
-    "strForm": "DLLWW",
-    "squad": [
-      { "name": "Alex Iwobi", "pos": "Midfielder", "no": "17" },
-      { "name": "Raúl Jiménez", "pos": "Forward", "no": "7" },
-      { "name": "Andreas Pereira", "pos": "Midfielder", "no": "18" },
-      { "name": "Antonee Robinson", "pos": "Defender", "no": "33" },
-      { "name": "Bernd Leno", "pos": "Goalkeeper", "no": "1" }
-    ]
+    "idTeam": "364",
+    "strTeam": "Liverpool",
+    "info": {
+      "founded": "1892",
+      "nickname": "The Reds",
+      "manager": "Arne Slot",
+      "stadium": "Anfield",
+      "capacity": "61,276",
+      "city": "Liverpool"
+    }
   },
   {
-    "intRank": "12",
-    "idTeam": "133609",
-    "strTeam": "Newcastle United",
-    "intPlayed": "38",
-    "intWin": "14",
-    "intDraw": "7",
-    "intLoss": "17",
-    "intGoalsFor": "53",
-    "intGoalsAgainst": "55",
-    "intGoalDifference": "-2",
-    "intPoints": "49",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/5jevk91653487832.png",
-    "strForm": "LLWLW",
-    "squad": [
-      { "name": "Alexander Isak", "pos": "Forward", "no": "14" },
-      { "name": "Anthony Gordon", "pos": "Forward", "no": "10" },
-      { "name": "Bruno Guimarães", "pos": "Midfielder", "no": "39" },
-      { "name": "Kieran Trippier", "pos": "Defender", "no": "2" },
-      { "name": "Nick Pope", "pos": "Goalkeeper", "no": "22" }
-    ]
+    "idTeam": "379",
+    "strTeam": "Aston Villa",
+    "info": {
+      "founded": "1874",
+      "nickname": "The Villans",
+      "manager": "Unai Emery",
+      "stadium": "Villa Park",
+      "capacity": "42,640",
+      "city": "Birmingham"
+    }
   },
   {
-    "intRank": "13",
-    "idTeam": "133605",
-    "strTeam": "Everton",
-    "intPlayed": "38",
-    "intWin": "13",
-    "intDraw": "10",
-    "intLoss": "15",
-    "intGoalsFor": "47",
-    "intGoalsAgainst": "50",
-    "intGoalDifference": "-3",
-    "intPoints": "49",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/eqayrf1523184794.png",
-    "strForm": "WWLLD",
-    "squad": [
-      { "name": "Dominic Calvert-Lewin", "pos": "Forward", "no": "9" },
-      { "name": "Dwight McNeil", "pos": "Midfielder", "no": "7" },
-      { "name": "James Garner", "pos": "Midfielder", "no": "37" },
-      { "name": "James Tarkowski", "pos": "Defender", "no": "6" },
-      { "name": "Jordan Pickford", "pos": "Goalkeeper", "no": "1" }
-    ]
-  },
-  {
-    "intRank": "14",
-    "idTeam": "133621",
-    "strTeam": "Leeds United",
-    "intPlayed": "38",
-    "intWin": "11",
-    "intDraw": "14",
-    "intLoss": "13",
-    "intGoalsFor": "49",
-    "intGoalsAgainst": "56",
-    "intGoalDifference": "-7",
-    "intPoints": "47",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/wwypqp1425326584.png",
-    "strForm": "DDWLD",
-    "squad": [
-      { "name": "Wilfried Gnonto", "pos": "Forward", "no": "29" },
-      { "name": "Daniel James", "pos": "Forward", "no": "7" },
-      { "name": "Ethan Ampadu", "pos": "Midfielder", "no": "4" },
-      { "name": "Pascal Struijk", "pos": "Defender", "no": "21" },
-      { "name": "Illan Meslier", "pos": "Goalkeeper", "no": "1" }
-    ]
-  },
-  {
-    "intRank": "15",
-    "idTeam": "133603",
-    "strTeam": "Crystal Palace",
-    "intPlayed": "38",
-    "intWin": "11",
-    "intDraw": "12",
-    "intLoss": "15",
-    "intGoalsFor": "41",
-    "intGoalsAgainst": "51",
-    "intGoalDifference": "-10",
-    "intPoints": "45",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/ia6i3m1656014992.png",
-    "strForm": "DWDLL",
-    "squad": [
-      { "name": "Eberechi Eze", "pos": "Midfielder", "no": "10" },
-      { "name": "Jean-Philippe Mateta", "pos": "Forward", "no": "14" },
-      { "name": "Adam Wharton", "pos": "Midfielder", "no": "20" },
-      { "name": "Marc Guéhi", "pos": "Defender", "no": "6" },
-      { "name": "Dean Henderson", "pos": "Goalkeeper", "no": "1" }
-    ]
-  },
-  {
-    "intRank": "16",
-    "idTeam": "133628",
-    "strTeam": "Nottingham Forest",
-    "intPlayed": "38",
-    "intWin": "11",
-    "intDraw": "11",
-    "intLoss": "16",
-    "intGoalsFor": "48",
-    "intGoalsAgainst": "51",
-    "intGoalDifference": "-3",
-    "intPoints": "44",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/1i2kvh1719918076.png",
-    "strForm": "DWDWD",
-    "squad": [
-      { "name": "Chris Wood", "pos": "Forward", "no": "11" },
-      { "name": "Morgan Gibbs-White", "pos": "Midfielder", "no": "10" },
-      { "name": "Callum Hudson-Odoi", "pos": "Forward", "no": "14" },
-      { "name": "Murillo", "pos": "Defender", "no": "40" },
-      { "name": "Matz Sels", "pos": "Goalkeeper", "no": "26" }
-    ]
-  },
-  {
-    "intRank": "17",
-    "idTeam": "133616",
+    "idTeam": "357",
     "strTeam": "Tottenham Hotspur",
-    "intPlayed": "38",
-    "intWin": "10",
-    "intDraw": "11",
-    "intLoss": "17",
-    "intGoalsFor": "48",
-    "intGoalsAgainst": "57",
-    "intGoalDifference": "-9",
-    "intPoints": "41",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/i8s9ub1626549748.png",
-    "strForm": "DLLWD",
-    "squad": [
-      { "name": "Son Heung-min", "pos": "Forward", "no": "7" },
-      { "name": "James Maddison", "pos": "Midfielder", "no": "10" },
-      { "name": "Dejan Kulusevski", "pos": "Midfielder", "no": "21" },
-      { "name": "Cristian Romero", "pos": "Defender", "no": "17" },
-      { "name": "Guglielmo Vicario", "pos": "Goalkeeper", "no": "13" }
-    ]
+    "info": {
+      "founded": "1882",
+      "nickname": "Spurs",
+      "manager": "Ange Postecoglou",
+      "stadium": "Tottenham Hotspur Stadium",
+      "capacity": "62,850",
+      "city": "London"
+    }
   },
   {
-    "intRank": "18",
-    "idTeam": "133619",
+    "idTeam": "371",
     "strTeam": "West Ham United",
-    "intPlayed": "38",
-    "intWin": "10",
-    "intDraw": "9",
-    "intLoss": "19",
-    "intGoalsFor": "46",
-    "intGoalsAgainst": "65",
-    "intGoalDifference": "-19",
-    "intPoints": "39",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/hfum4l1599931799.png",
-    "strForm": "LLDLD",
-    "squad": [
-      { "name": "Jarrod Bowen", "pos": "Forward", "no": "20" },
-      { "name": "Mohammed Kudus", "pos": "Midfielder", "no": "14" },
-      { "name": "Lucas Paquetá", "pos": "Midfielder", "no": "10" },
-      { "name": "Max Kilman", "pos": "Defender", "no": "26" },
-      { "name": "Alphonse Areola", "pos": "Goalkeeper", "no": "23" }
-    ]
+    "info": {
+      "founded": "1895",
+      "nickname": "The Hammers",
+      "manager": "Julen Lopetegui",
+      "stadium": "London Stadium",
+      "capacity": "62,500",
+      "city": "London"
+    }
   },
   {
-    "intRank": "19",
-    "idTeam": "133606",
-    "strTeam": "Burnley",
-    "intPlayed": "38",
-    "intWin": "4",
-    "intDraw": "10",
-    "intLoss": "24",
-    "intGoalsFor": "38",
-    "intGoalsAgainst": "75",
-    "intGoalDifference": "-37",
-    "intPoints": "22",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/ql7nl31686893820.png",
-    "strForm": "LDLLL",
-    "squad": [
-      { "name": "Lyle Foster", "pos": "Forward", "no": "9" },
-      { "name": "Josh Brownhill", "pos": "Midfielder", "no": "8" },
-      { "name": "Luca Koleosho", "pos": "Forward", "no": "30" },
-      { "name": "Maxime Estève", "pos": "Defender", "no": "5" },
-      { "name": "James Trafford", "pos": "Goalkeeper", "no": "19" }
-    ]
+    "idTeam": "363",
+    "strTeam": "Newcastle United",
+    "info": {
+      "founded": "1892",
+      "nickname": "The Magpies",
+      "manager": "Eddie Howe",
+      "stadium": "St James' Park",
+      "capacity": "52,305",
+      "city": "Newcastle"
+    }
   },
   {
-    "intRank": "20",
-    "idTeam": "133615",
+    "idTeam": "331",
+    "strTeam": "Brighton & Hove Albion",
+    "info": {
+      "founded": "1901",
+      "nickname": "The Seagulls",
+      "manager": "Fabian Hurzeler",
+      "stadium": "Amex Stadium",
+      "capacity": "31,876",
+      "city": "Brighton"
+    }
+  },
+  {
+    "idTeam": "389",
+    "strTeam": "Crystal Palace",
+    "info": {
+      "founded": "1905",
+      "nickname": "The Eagles",
+      "manager": "Oliver Glasner",
+      "stadium": "Selhurst Park",
+      "capacity": "25,486",
+      "city": "London"
+    }
+  },
+  {
+    "idTeam": "349",
+    "strTeam": "Bournemouth",
+    "info": {
+      "founded": "1899",
+      "nickname": "The Cherries",
+      "manager": "Andoni Iraola",
+      "stadium": "Vitality Stadium",
+      "capacity": "11,364",
+      "city": "Bournemouth"
+    }
+  },
+  {
+    "idTeam": "370",
+    "strTeam": "Fulham",
+    "info": {
+      "founded": "1879",
+      "nickname": "The Cottagers",
+      "manager": "Marco Silva",
+      "stadium": "Craven Cottage",
+      "capacity": "29,600",
+      "city": "London"
+    }
+  },
+  {
+    "idTeam": "368",
+    "strTeam": "Everton",
+    "info": {
+      "founded": "1878",
+      "nickname": "The Toffees",
+      "manager": "Sean Dyche",
+      "stadium": "Goodison Park",
+      "capacity": "39,572",
+      "city": "Liverpool"
+    }
+  },
+  {
+    "idTeam": "343",
+    "strTeam": "Brentford",
+    "info": {
+      "founded": "1889",
+      "nickname": "The Bees",
+      "manager": "Thomas Frank",
+      "stadium": "Gtech Community Stadium",
+      "capacity": "17,250",
+      "city": "London"
+    }
+  },
+  {
+    "idTeam": "393",
+    "strTeam": "Nottingham Forest",
+    "info": {
+      "founded": "1865",
+      "nickname": "The Garibaldi",
+      "manager": "Nuno Espirito Santo",
+      "stadium": "City Ground",
+      "capacity": "30,445",
+      "city": "Nottingham"
+    }
+  },
+  {
+    "idTeam": "380",
     "strTeam": "Wolverhampton Wanderers",
-    "intPlayed": "38",
-    "intWin": "3",
-    "intDraw": "11",
-    "intLoss": "24",
-    "intGoalsFor": "27",
-    "intGoalsAgainst": "68",
-    "intGoalDifference": "-41",
-    "intPoints": "20",
-    "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/u9qr031621593327.png",
-    "strForm": "LLDLD",
-    "squad": [
-      { "name": "Matheus Cunha", "pos": "Forward", "no": "12" },
-      { "name": "Hwang Hee-chan", "pos": "Forward", "no": "11" },
-      { "name": "Mario Lemina", "pos": "Midfielder", "no": "5" },
-      { "name": "Nelson Semedo", "pos": "Defender", "no": "2" },
-      { "name": "José Sá", "pos": "Goalkeeper", "no": "1" }
-    ]
+    "info": {
+      "founded": "1877",
+      "nickname": "The Wolves",
+      "manager": "Gary O'Neil",
+      "stadium": "Molineux Stadium",
+      "capacity": "32,050",
+      "city": "Wolverhampton"
+    }
+  },
+  {
+    "idTeam": "367",
+    "strTeam": "Leeds United",
+    "info": {
+      "founded": "1919",
+      "nickname": "The Whites",
+      "manager": "Daniel Farke",
+      "stadium": "Elland Road",
+      "capacity": "37,792",
+      "city": "Leeds"
+    }
+  },
+  {
+    "idTeam": "354",
+    "strTeam": "Leicester City",
+    "info": {
+      "founded": "1884",
+      "nickname": "The Foxes",
+      "manager": "Steve Cooper",
+      "stadium": "King Power Stadium",
+      "capacity": "32,261",
+      "city": "Leicester"
+    }
+  },
+  {
+    "idTeam": "373",
+    "strTeam": "Sunderland",
+    "info": {
+      "founded": "1879",
+      "nickname": "The Black Cats",
+      "manager": "Regis Le Bris",
+      "stadium": "Stadium of Light",
+      "capacity": "49,000",
+      "city": "Sunderland"
+    }
+  },
+  {
+    "idTeam": "347",
+    "strTeam": "Burnley",
+    "info": {
+      "founded": "1882",
+      "nickname": "The Clarets",
+      "manager": "Scott Parker",
+      "stadium": "Turf Moor",
+      "capacity": "21,944",
+      "city": "Burnley"
+    }
   }
 ]
