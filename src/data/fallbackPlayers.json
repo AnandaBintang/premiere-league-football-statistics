@@ -1,0 +1,146 @@
+{
+  "scorers": [
+    {
+      "intRank": "1",
+      "strPlayer": "Erling Haaland",
+      "strTeam": "Manchester City",
+      "intGoals": "27",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png"
+    },
+    {
+      "intRank": "2",
+      "strPlayer": "Igor Thiago",
+      "strTeam": "Brentford",
+      "intGoals": "22",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/grv1aw1546453779.png"
+    },
+    {
+      "intRank": "3",
+      "strPlayer": "Bukayo Saka",
+      "strTeam": "Arsenal",
+      "intGoals": "18",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/uyhbfe1612467038.png"
+    },
+    {
+      "intRank": "4",
+      "strPlayer": "Mohamed Salah",
+      "strTeam": "Liverpool",
+      "intGoals": "17",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/kfaher1737969724.png"
+    },
+    {
+      "intRank": "5",
+      "strPlayer": "Marcus Rashford",
+      "strTeam": "Manchester United",
+      "intGoals": "15",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/xzqdr11517660252.png"
+    },
+    {
+      "intRank": "6",
+      "strPlayer": "Alexander Isak",
+      "strTeam": "Newcastle United",
+      "intGoals": "14",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/5jevk91653487832.png"
+    },
+    {
+      "intRank": "7",
+      "strPlayer": "Cole Palmer",
+      "strTeam": "Chelsea",
+      "intGoals": "14",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/yvwvtu1448813215.png"
+    },
+    {
+      "intRank": "8",
+      "strPlayer": "Ollie Watkins",
+      "strTeam": "Aston Villa",
+      "intGoals": "13",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/jykrpv1717309891.png"
+    },
+    {
+      "intRank": "9",
+      "strPlayer": "Junior Kroupi",
+      "strTeam": "Bournemouth",
+      "intGoals": "13",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/y08nak1534071116.png"
+    },
+    {
+      "intRank": "10",
+      "strPlayer": "Son Heung-min",
+      "strTeam": "Tottenham Hotspur",
+      "intGoals": "12",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/i8s9ub1626549748.png"
+    }
+  ],
+  "assists": [
+    {
+      "intRank": "1",
+      "strPlayer": "Bruno Fernandes",
+      "strTeam": "Manchester United",
+      "intAssists": "21",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/xzqdr11517660252.png"
+    },
+    {
+      "intRank": "2",
+      "strPlayer": "Rayan Cherki",
+      "strTeam": "Manchester City",
+      "intAssists": "12",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png"
+    },
+    {
+      "intRank": "3",
+      "strPlayer": "Jarrod Bowen",
+      "strTeam": "West Ham United",
+      "intAssists": "11",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/hfum4l1599931799.png"
+    },
+    {
+      "intRank": "4",
+      "strPlayer": "Erling Haaland",
+      "strTeam": "Manchester City",
+      "intAssists": "8",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png"
+    },
+    {
+      "intRank": "5",
+      "strPlayer": "Mohamed Salah",
+      "strTeam": "Liverpool",
+      "intAssists": "7",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/kfaher1737969724.png"
+    },
+    {
+      "intRank": "6",
+      "strPlayer": "Harry Wilson",
+      "strTeam": "Fulham",
+      "intAssists": "7",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/xwwvyt1448811086.png"
+    },
+    {
+      "intRank": "7",
+      "strPlayer": "Dominik Szoboszlai",
+      "strTeam": "Liverpool",
+      "intAssists": "7",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/kfaher1737969724.png"
+    },
+    {
+      "intRank": "8",
+      "strPlayer": "James Garner",
+      "strTeam": "Everton",
+      "intAssists": "7",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/eqayrf1523184794.png"
+    },
+    {
+      "intRank": "9",
+      "strPlayer": "Martin Ødegaard",
+      "strTeam": "Arsenal",
+      "intAssists": "6",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/uyhbfe1612467038.png"
+    },
+    {
+      "intRank": "10",
+      "strPlayer": "Morgan Rogers",
+      "strTeam": "Aston Villa",
+      "intAssists": "6",
+      "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/jykrpv1717309891.png"
+    }
+  ]
+}
