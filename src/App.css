@@ -24,10 +24,11 @@
   gap: 14px;
 }
 
-.pl-logo-svg {
-  width: 45px;
-  height: 45px;
-  filter: drop-shadow(0 0 8px var(--color-pl-green));
+.pl-logo-img {
+  height: 48px;
+  width: auto;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 135, 0.25));
+  transition: var(--transition-smooth);
 }
 
 .dashboard-title-area {
@@ -845,4 +846,144 @@
 
 .back-btn:hover svg {
   transform: translateX(-2px);
+}
+
+/* Responsive Layout Utilities */
+.clubs-grid {
+  grid-template-columns: 1fr 2.8fr;
+}
+
+.club-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .clubs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hide-tablet {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .tabs-nav {
+    width: 100%;
+    display: flex;
+    margin-bottom: 16px;
+  }
+  .tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 8px;
+    font-size: 12px;
+    gap: 4px;
+  }
+  .tab-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 580px) {
+  .hide-mobile {
+    display: none !important;
+  }
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 16px;
+  }
+  .header-brand {
+    gap: 10px;
+  }
+  .pl-logo-img {
+    height: 38px;
+  }
+  .dashboard-title {
+    font-size: 22px;
+  }
+  .dashboard-subtitle {
+    font-size: 11px;
+  }
+  .season-badge {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .kpi-card {
+    padding: 12px;
+  }
+  .kpi-value {
+    font-size: 18px;
+    word-break: break-word;
+  }
+  .kpi-label {
+    font-size: 10px;
+  }
+  .kpi-icon-container {
+    width: 28px;
+    height: 28px;
+  }
+  .kpi-icon-container svg {
+    width: 14px;
+    height: 14px;
+  }
+  .kpi-suffix {
+    font-size: 11px;
+  }
+  .standings-table-container {
+    padding: 12px;
+  }
+  .standings-table th, 
+  .standings-table td {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+  .table-team-badge {
+    width: 20px;
+    height: 20px;
+  }
+  .player-stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .leaderboard-card {
+    padding: 16px;
+  }
+  .chart-container {
+    padding: 16px;
+  }
+  .chart-title {
+    font-size: 15px;
+  }
+  .club-details-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .team-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .team-rank-badge {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-layout {
+    padding: 16px 12px;
+    gap: 16px;
+  }
 }

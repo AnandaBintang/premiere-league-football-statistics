@@ -7,6 +7,7 @@ import StandingsTable from "./components/StandingsTable";
 import PlayerStats from "./components/PlayerStats";
 import WDLChart from "./components/WDLChart";
 import TeamSelector from "./components/TeamSelector";
+import plLogo from "./assets/premier-league-logo.svg";
 import "./App.css";
 
 export default function App() {
@@ -64,42 +65,12 @@ export default function App() {
       {/* Header */}
       <header className="dashboard-header">
         <div className="header-brand">
-          {/* Custom Soccer Ball + Crown SVG Logo */}
-          <svg
-            className="pl-logo-svg"
-            viewBox="0 0 64 64"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="32"
-              cy="36"
-              r="24"
-              fill="#38003c"
-              stroke="#00ff87"
-              strokeWidth="2.5"
-            />
-            <path
-              d="M18 20L25 26L32 16L39 26L46 20L42 34H22L18 20Z"
-              fill="#00ff87"
-              stroke="#00ff87"
-              strokeWidth="1.5"
-              strokeLinejoin="round"
-            />
-            <circle cx="32" cy="36" r="3" fill="#fff" />
-            <path
-              d="M32 24V28M24 36H28M36 36H40M32 44V48"
-              stroke="rgba(255,255,255,0.4)"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M26 31L29 34M38 31L35 34M26 41L29 38M38 41L35 38"
-              stroke="rgba(255,255,255,0.4)"
-              strokeWidth="1.5"
-            />
-          </svg>
+          <img
+            src={plLogo}
+            alt="Premier League"
+            className="pl-logo-img"
+          />
           <div className="dashboard-title-area">
-            <h1 className="dashboard-title">Premier League</h1>
             <span className="dashboard-subtitle">
               Visual Statistics & Performance Dashboard
             </span>
@@ -299,10 +270,7 @@ export default function App() {
 
         {/* Tab 3: Detailed Club profiles */}
         {activeTab === "clubs" && (
-          <div
-            className="main-content-grid"
-            style={{ gridTemplateColumns: "1fr 2.8fr" }}
-          >
+          <div className="main-content-grid clubs-grid">
             <div className="details-column">
               <button
                 className="back-btn"
@@ -342,17 +310,7 @@ export default function App() {
       {/* Footer */}
       <footer className="dashboard-footer">
         <div>
-          Data fetched live from{" "}
-          <a
-            href="https://www.thesportsdb.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footer-link"
-          >
-            TheSportsDB API
-          </a>{" "}
-          (Top 5 Standing) & integrated with Wikipedia final standings for full
-          20-team representation.
+          Data fetched live in real-time from the public ESPN API endpoints (including live league standings, club rosters, and match schedules).
         </div>
         <div>
           Premier League Visual Dashboard &copy; {new Date().getFullYear()} -

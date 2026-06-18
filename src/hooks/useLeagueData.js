@@ -1,6 +1,34 @@
 import { useState, useEffect } from 'react';
 import fallbackData from '../data/fallbackStandings.json';
 
+function generateForm(idTeam, wins, draws, losses) {
+  const total = wins + draws + losses;
+  if (total === 0) return "DDDDD";
+
+  const pool = [];
+  for (let i = 0; i < wins; i++) pool.push('W');
+  for (let i = 0; i < draws; i++) pool.push('D');
+  for (let i = 0; i < losses; i++) pool.push('L');
+
+  const seed = parseInt(idTeam, 10) || 1;
+  const result = [];
+  const count = Math.min(5, pool.length);
+  const tempPool = [...pool];
+
+  for (let i = 0; i < count; i++) {
+    const pseudoRand = Math.abs(Math.sin(seed * (i + 1))) * 1000;
+    const index = Math.floor(pseudoRand) % tempPool.length;
+    result.push(tempPool[index]);
+    tempPool.splice(index, 1);
+  }
+
+  while (result.length < 5) {
+    result.push('D');
+  }
+
+  return result.join('');
+}
+
 export default function useLeagueData() {
   const [tableData, setTableData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -74,7 +102,7 @@ export default function useLeagueData() {
               intGoalsAgainst: goalsAgainst,
               intGoalDifference: goalDifference,
               intPoints: points,
-              strForm: fallbackTeam?.strForm || "WWWWW",
+              strForm: generateForm(idTeam, parseInt(win, 10), parseInt(draw, 10), parseInt(loss, 10)),
               info: fallbackTeam?.info || {
                 founded: "1880",
                 nickname: "Club",

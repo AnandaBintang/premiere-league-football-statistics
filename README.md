@@ -24,12 +24,14 @@ The dashboard includes connected routing logic: clicking on any club row in the 
 
 ## Technical Architecture and Data Strategy
 
-### API Merging Logic
-The free developer tier of TheSportsDB API limits the lookuptable endpoint to returning only the top five clubs. To display the full twenty clubs in the Premier League, this application implements a custom data merger hook:
-1.  **API Retrieval:** Stands are requested in real-time from the lookup table endpoint.
-2.  **Dataset Integration:** The returned five entries update the top positions dynamically.
-3.  **Fallback Merging:** The remaining fifteen clubs are populated from a pre-calculated, verified static JSON dataset compiled at the conclusion of the 2025-2026 season.
-4.  **Sorting and Ranking:** The combined array is programmatically sorted by points, goal difference, and goals scored, ensuring that table rankings remain mathematically correct.
+### Live API Architecture
+To supply the dashboard with comprehensive and complete statistics in real-time, the application fetches live records directly from the public ESPN API endpoints:
+1. **Standings Feed:** The hook fetches all 20 Premier League clubs dynamically, parsing Played, Wins, Draws, Losses, Goals For, Goals Against, Goal Difference, and Points.
+2. **Squad Rosters:** Selected club profiles query the roster feed to retrieve live athlete jersey numbers, positions, nationalities, and ages.
+3. **Match Histories:** The system queries completed match schedules for the selected club to compute Win-Draw-Loss rates and formats the previous five match outcomes.
+
+### Lightweight Metadata Lookup
+To avoid unnecessary network roundtrips and API bottlenecks, the dashboard merges the live standings feed with a minimal local lookup catalog. This catalog translates team records to append stadium details, founded years, capacities, managers, nicknames, and cities.
 
 ## Tech Stack
 

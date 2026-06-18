@@ -231,7 +231,7 @@ export default function WDLChart({ teamData }) {
       )}
 
       {/* Grid of details: upper section */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', width: '100%' }}>
+      <div className="club-details-grid">
         
         {/* Outcomes & Performance box */}
         <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -290,7 +290,7 @@ export default function WDLChart({ teamData }) {
       </div>
 
       {/* Grid of details: lower section */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', width: '100%' }}>
+      <div className="club-details-grid">
         
         {/* Past Match History Card */}
         <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px', position: 'relative' }}>
