@@ -46,7 +46,7 @@ To run this project locally, ensure you have Node.js and pnpm installed.
 
 1.  **Clone the Repository:**
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/AnandaBintang/premiere-league-football-statistics
     cd football-statistics
     ```
 
