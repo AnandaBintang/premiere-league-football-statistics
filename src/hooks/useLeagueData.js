@@ -40,7 +40,7 @@ export default function useLeagueData() {
         setLoading(true);
         // ESPN public v2 standings endpoint for English Premier League (eng.1)
         const response = await fetch(
-          "https://site.api.espn.com/apis/v2/sports/soccer/eng.1/standings",
+          "https://site.api.espn.com/apis/v2/sports/soccer/eng.1/standings?season=2025",
         );
 
         if (!response.ok) {

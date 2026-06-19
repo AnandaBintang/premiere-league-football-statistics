@@ -22,8 +22,8 @@ export default function WDLChart({ teamData }) {
 
         // Fetch roster and schedule concurrently
         const [rosterRes, scheduleRes] = await Promise.all([
-          fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/${teamData.idTeam}/roster`),
-          fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/${teamData.idTeam}/schedule`)
+          fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/${teamData.idTeam}/roster?season=2025`),
+          fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/${teamData.idTeam}/schedule?season=2025`)
         ]);
 
         if (!active) return;
