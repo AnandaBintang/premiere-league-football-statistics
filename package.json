@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "scrape:xg": "node scripts/scrape-understat-xg.mjs",
+    "test:analytics": "node --test src/utils/advancedAnalytics.test.js scripts/scrape-understat-xg.test.mjs"
   },
   "dependencies": {
     "chart.js": "^4.5.1",

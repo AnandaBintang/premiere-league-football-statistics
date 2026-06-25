@@ -1,0 +1,182 @@
+{
+  "Aston Villa": {
+    "xG": 56.2,
+    "xGA": 56.68,
+    "npxG": 56.2,
+    "npxGA": 55.16,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Everton": {
+    "xG": 49.87,
+    "xGA": 59.99,
+    "npxG": 48.35,
+    "npxGA": 56.95,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Bournemouth": {
+    "xG": 66.83,
+    "xGA": 56.77,
+    "npxG": 62.27,
+    "npxGA": 52.2,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Sunderland": {
+    "xG": 43.14,
+    "xGA": 60.34,
+    "npxG": 39.33,
+    "npxGA": 58.05,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Crystal Palace": {
+    "xG": 62.46,
+    "xGA": 60.05,
+    "npxG": 56.37,
+    "npxGA": 54.72,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Chelsea": {
+    "xG": 72.21,
+    "xGA": 58.12,
+    "npxG": 66.12,
+    "npxGA": 56.6,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "West Ham": {
+    "xG": 49.64,
+    "xGA": 68.12,
+    "npxG": 47.36,
+    "npxGA": 62.79,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Tottenham": {
+    "xG": 46.8,
+    "xGA": 55.59,
+    "npxG": 46.8,
+    "npxGA": 53.31,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Arsenal": {
+    "xG": 77.49,
+    "xGA": 33.13,
+    "npxG": 74.44,
+    "npxGA": 33.13,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Newcastle United": {
+    "xG": 60.61,
+    "xGA": 57.31,
+    "npxG": 56.05,
+    "npxGA": 53.51,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Liverpool": {
+    "xG": 67.26,
+    "xGA": 53.87,
+    "npxG": 65.74,
+    "npxGA": 50.83,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Manchester City": {
+    "xG": 79.36,
+    "xGA": 46.49,
+    "npxG": 76.31,
+    "npxGA": 44.82,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Manchester United": {
+    "xG": 72.19,
+    "xGA": 50.28,
+    "npxG": 67.62,
+    "npxGA": 47.24,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Burnley": {
+    "xG": 36.94,
+    "xGA": 82.58,
+    "npxG": 35.42,
+    "npxGA": 76.49,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Brighton": {
+    "xG": 58.42,
+    "xGA": 53.75,
+    "npxG": 54.61,
+    "npxGA": 49.18,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Fulham": {
+    "xG": 49.58,
+    "xGA": 60.84,
+    "npxG": 45.78,
+    "npxGA": 57.8,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Wolverhampton Wanderers": {
+    "xG": 38.44,
+    "xGA": 68.3,
+    "npxG": 34.64,
+    "npxGA": 64.5,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Brentford": {
+    "xG": 66.26,
+    "xGA": 59.11,
+    "npxG": 58.64,
+    "npxGA": 53.02,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Leeds": {
+    "xG": 59.77,
+    "xGA": 56.33,
+    "npxG": 53.53,
+    "npxGA": 51.76,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  },
+  "Nottingham Forest": {
+    "xG": 48.94,
+    "xGA": 64.74,
+    "npxG": 46.65,
+    "npxGA": 60.17,
+    "matches": 38,
+    "source": "https://understat.com/getLeagueData/EPL/2025",
+    "scrapedAt": "2026-06-25T10:53:50.833Z"
+  }
+}

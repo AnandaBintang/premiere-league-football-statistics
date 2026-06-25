@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useLeagueData from "./hooks/useLeagueData";
 import KpiCard from "./components/KpiCard";
 import StandingsChart from "./components/StandingsChart";
@@ -7,27 +7,18 @@ import StandingsTable from "./components/StandingsTable";
 import PlayerStats from "./components/PlayerStats";
 import WDLChart from "./components/WDLChart";
 import TeamSelector from "./components/TeamSelector";
+import AdvancedAnalytics from "./components/AdvancedAnalytics";
 import plLogo from "./assets/premier-league-logo.svg";
 import "./App.css";
 
 export default function App() {
   const { tableData, loading, error } = useLeagueData();
   const [activeTab, setActiveTab] = useState("standings"); // 'standings' | 'players' | 'clubs'
-  const [selectedTeamId, setSelectedTeamId] = useState("");
-
-  // Auto-select the top team once data is loaded
-  useEffect(() => {
-    if (tableData && tableData.length > 0 && !selectedTeamId) {
-      const topTeam = tableData.find((team) => String(team.intRank) === "1");
-      if (topTeam) {
-        setSelectedTeamId(topTeam.idTeam);
-      }
-    }
-  }, [tableData, selectedTeamId]);
+  const [manualSelectedTeamId, setManualSelectedTeamId] = useState("");
 
   // Handle click on a team row in the standings table to redirect to Club Profiles
   const handleSelectTeamRow = (teamId) => {
-    setSelectedTeamId(teamId);
+    setManualSelectedTeamId(teamId);
     setActiveTab("clubs");
   };
 
@@ -55,6 +46,11 @@ export default function App() {
 
   const championTeam =
     tableData.find((t) => String(t.intRank) === "1")?.strTeam || "Arsenal";
+
+  const selectedTeamId =
+    manualSelectedTeamId ||
+    tableData.find((team) => String(team.intRank) === "1")?.idTeam ||
+    "";
 
   const selectedTeam = tableData.find(
     (team) => String(team.idTeam) === String(selectedTeamId),
@@ -258,18 +254,21 @@ export default function App() {
       <main>
         {/* Tab 1: Standings & Visual Charts */}
         {activeTab === "standings" && (
-          <div className="main-content-grid">
-            <div className="charts-column">
-              <StandingsChart data={tableData} />
-              <GoalsChart data={tableData} />
+          <>
+            <div className="main-content-grid">
+              <div className="charts-column">
+                <StandingsChart data={tableData} />
+                <GoalsChart data={tableData} />
+              </div>
+              <div className="details-column">
+                <StandingsTable
+                  data={tableData}
+                  onSelectTeam={handleSelectTeamRow}
+                />
+              </div>
             </div>
-            <div className="details-column">
-              <StandingsTable
-                data={tableData}
-                onSelectTeam={handleSelectTeamRow}
-              />
-            </div>
-          </div>
+            <AdvancedAnalytics data={tableData} />
+          </>
         )}
 
         {/* Tab 2: Player stats leaderboards */}
@@ -303,7 +302,7 @@ export default function App() {
                 <TeamSelector
                   data={tableData}
                   selectedTeamId={selectedTeamId}
-                  onSelectTeam={setSelectedTeamId}
+                  onSelectTeam={setManualSelectedTeamId}
                 />
               </div>
             </div>

@@ -4,18 +4,17 @@ export default function KpiCard({ label, value, suffix = '', icon }) {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
-    let start = 0;
     const end = parseInt(value, 10);
     
     // If it's not a number (e.g., a team name like "Arsenal"), set it directly
     if (isNaN(end)) {
-      setDisplayValue(value);
-      return;
+      const timeout = setTimeout(() => setDisplayValue(value), 0);
+      return () => clearTimeout(timeout);
     }
 
     if (end === 0) {
-      setDisplayValue(0);
-      return;
+      const timeout = setTimeout(() => setDisplayValue(0), 0);
+      return () => clearTimeout(timeout);
     }
 
     const duration = 1500; // 1.5 seconds

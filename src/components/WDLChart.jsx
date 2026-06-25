@@ -137,7 +137,6 @@ export default function WDLChart({ teamData }) {
 
   // Calculate advanced statistics
   const winRate = ((wins / played) * 100).toFixed(1);
-  const drawRate = ((draws / played) * 100).toFixed(1);
   const avgGoalsScored = (goalsFor / played).toFixed(2);
   const avgGoalsConceded = (goalsAgainst / played).toFixed(2);
 
