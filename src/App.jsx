@@ -65,18 +65,25 @@ export default function App() {
       {/* Header */}
       <header className="dashboard-header">
         <div className="header-brand">
-          <img
-            src={plLogo}
-            alt="Premier League"
-            className="pl-logo-img"
-          />
+          <img src={plLogo} alt="Premier League" className="pl-logo-img" />
           <div className="dashboard-title-area">
             <span className="dashboard-subtitle">
               Visual Statistics & Performance Dashboard
             </span>
           </div>
         </div>
-        <div className="season-badge">SEASON 2025/2026</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div className="season-badge">SEASON 2025/2026</div>
+          <a
+            href="/presentasi.html"
+            className="tab-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ padding: "6px 10px" }}
+          >
+            📽️ Presentation
+          </a>
+        </div>
       </header>
 
       {/* Tabs Navigation Header */}
@@ -310,7 +317,8 @@ export default function App() {
       {/* Footer */}
       <footer className="dashboard-footer">
         <div>
-          Data fetched live in real-time from the public ESPN API endpoints (including live league standings, club rosters, and match schedules).
+          Data fetched live in real-time from the public ESPN API endpoints
+          (including live league standings, club rosters, and match schedules).
         </div>
         <div>
           Premier League Visual Dashboard &copy; {new Date().getFullYear()} -

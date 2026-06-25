@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Presentasi – Premier League Dashboard</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ─── RESET ─────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --pl-purple: #38003c;
+      --pl-purple2: #6b006e;
+      --pl-green: #00ff87;
+      --pl-pink: #ff007f;
+      --pl-cyan: #00f2fe;
+      --pl-gold: #ffd700;
+      --slide-w: 1280px;
+      --slide-h: 720px;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #111;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ─── TOOLBAR ────────────────────────────────── */
+    .toolbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background: rgba(20, 4, 22, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      z-index: 9999;
+    }
+
+    .tb-logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--pl-green);
+      letter-spacing: 1px;
+      margin-right: 8px;
+    }
+
+    .tb-sep {
+      width: 1px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .tb-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.75);
+      border-radius: 7px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all .2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .tb-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+    }
+
+    .tb-btn.primary {
+      background: var(--pl-green);
+      border-color: var(--pl-green);
+      color: var(--pl-purple);
+    }
+
+    .tb-btn.primary:hover {
+      opacity: .88;
+    }
+
+    .tb-counter {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: .5px;
+    }
+
+    #slideNumDisplay {
+      color: #fff;
+    }
+
+    .tb-progress {
+      width: 120px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .tb-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pl-green), var(--pl-cyan));
+      border-radius: 2px;
+      transition: width .4s ease;
+    }
+
+    /* ─── STAGE ──────────────────────────────────── */
+    .stage {
+      position: fixed;
+      top: 48px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #111;
+    }
+
+    /* ─── SLIDE BASE ─────────────────────────────── */
+    .slide-deck {
+      position: relative;
+      width: var(--slide-w);
+      height: var(--slide-h);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: var(--slide-w);
+      height: var(--slide-h);
+      display: none;
+      opacity: 0;
+      transform-origin: center center;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .slide.entering {
+      animation: slideIn .4s cubic-bezier(.4, 0, .2, 1) forwards;
+    }
+
+    .slide.leaving {
+      animation: slideOut .3s cubic-bezier(.4, 0, .2, 1) forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(60px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0)
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        opacity: 1;
+        transform: translateX(0)
+      }
+
+      to {
+        opacity: 0;
+        transform: translateX(-60px)
+      }
+    }
+
+    /* ─── SLIDE LAYOUTS ──────────────────────────── */
+    /* Cover */
+    .slide-cover {
+      background: linear-gradient(135deg, var(--pl-purple) 0%, #6b006e 50%, #1c0020 100%);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .slide-cover::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 255, 135, .15) 0%, transparent 65%);
+    }
+
+    .slide-cover::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 0, 127, .12) 0%, transparent 65%);
+    }
+
+    /* Two-col layout */
+    .slide-twocol {
+      background: linear-gradient(160deg, #0e0012 0%, #180022 100%);
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .col-left {
+      width: 38%;
+      background: linear-gradient(180deg, var(--pl-purple) 0%, #5a0060 100%);
+      padding: 52px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .col-left::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 255, 135, .2) 0%, transparent 70%);
+    }
+
+    .col-right {
+      flex: 1;
+      padding: 52px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Section header slide */
+    .slide-section {
+      background: linear-gradient(135deg, var(--pl-purple) 0%, #2a0030 100%);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Light slide */
+    .slide-light {
+      background: linear-gradient(160deg, #0e0012 0%, #180022 100%);
+      flex-direction: column;
+      padding: 52px 64px;
+      justify-content: center;
+    }
+
+    /* Full dark */
+    .slide-dark {
+      background: linear-gradient(160deg, #0a000e 0%, #150018 100%);
+      flex-direction: column;
+      padding: 52px 64px;
+      justify-content: center;
+    }
+
+    /* ─── DECORATIVE BG GRID ─────────────────────── */
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ─── TYPOGRAPHY ─────────────────────────────── */
+    .slide-label {
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--pl-green);
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slide-label::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: var(--pl-green);
+      border-radius: 1px;
+    }
+
+    .h-cover {
+      font-family: 'Outfit', sans-serif;
+      font-size: 62px;
+      font-weight: 900;
+      line-height: 1.1;
+      background: linear-gradient(90deg, #fff 0%, var(--pl-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .h-sub {
+      font-size: 22px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, .6);
+      text-align: center;
+      margin-bottom: 32px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, .85);
+      margin-bottom: 6px;
+    }
+
+    .lead {
+      font-size: 15px;
+      color: rgba(255, 255, 255, .65);
+      line-height: 1.7;
+    }
+
+    .lead strong {
+      color: rgba(255, 255, 255, .9);
+    }
+
+    .section-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 120px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, .04);
+      position: absolute;
+      right: 48px;
+      bottom: -10px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    /* ─── COMPONENTS ─────────────────────────────── */
+    /* Glass panel */
+    .glass {
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 14px;
+      padding: 20px 22px;
+      backdrop-filter: blur(6px);
+    }
+
+    .glass.green-glow {
+      border-color: rgba(0, 255, 135, .25);
+      box-shadow: 0 0 20px rgba(0, 255, 135, .06);
+    }
+
+    .glass.pink-glow {
+      border-color: rgba(255, 0, 127, .25);
+      box-shadow: 0 0 20px rgba(255, 0, 127, .06);
+    }
+
+    .glass.cyan-glow {
+      border-color: rgba(0, 242, 254, .25);
+      box-shadow: 0 0 20px rgba(0, 242, 254, .06);
+    }
+
+    /* Tag pill */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1.5px solid;
+    }
+
+    .pill-green {
+      background: rgba(0, 255, 135, .1);
+      border-color: rgba(0, 255, 135, .35);
+      color: var(--pl-green);
+    }
+
+    .pill-pink {
+      background: rgba(255, 0, 127, .1);
+      border-color: rgba(255, 0, 127, .35);
+      color: var(--pl-pink);
+    }
+
+    .pill-cyan {
+      background: rgba(0, 242, 254, .1);
+      border-color: rgba(0, 242, 254, .35);
+      color: var(--pl-cyan);
+    }
+
+    .pill-gold {
+      background: rgba(255, 215, 0, .1);
+      border-color: rgba(255, 215, 0, .35);
+      color: var(--pl-gold);
+    }
+
+    .pill-white {
+      background: rgba(255, 255, 255, .07);
+      border-color: rgba(255, 255, 255, .2);
+      color: rgba(255, 255, 255, .8);
+    }
+
+    /* KPI block */
+    .kpi-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .kpi {
+      flex: 1;
+      min-width: 140px;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .4);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 30px;
+      font-weight: 900;
+      color: var(--pl-green);
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .35);
+      margin-top: 3px;
+    }
+
+    /* List item */
+    .list-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .07);
+      margin-bottom: 10px;
+    }
+
+    .list-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .li-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      line-height: 1.3;
+    }
+
+    .li-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+
+    .li-desc {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, .55);
+      line-height: 1.5;
+    }
+
+    /* Grid 2col */
+    .g2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .g3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .g22 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Table */
+    .slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .slide-table thead tr {
+      background: rgba(0, 255, 135, .12);
+      border-bottom: 1px solid rgba(0, 255, 135, .3);
+    }
+
+    .slide-table thead th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--pl-green);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .slide-table tbody tr {
+      border-bottom: 1px solid rgba(255, 255, 255, .05);
+    }
+
+    .slide-table tbody tr:hover {
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .slide-table tbody td {
+      padding: 10px 14px;
+      color: rgba(255, 255, 255, .75);
+    }
+
+    .slide-table td code {
+      background: rgba(255, 255, 255, .07);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--pl-cyan);
+    }
+
+    /* Zone dot */
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+      flex-shrink: 0;
+    }
+
+    .dot-cl {
+      background: var(--pl-green);
+    }
+
+    .dot-el {
+      background: var(--pl-cyan);
+    }
+
+    .dot-rel {
+      background: var(--pl-pink);
+    }
+
+    .dot-mid {
+      background: rgba(255, 255, 255, .3);
+    }
+
+    /* Chart bar mock */
+    .mock-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .mock-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mock-bar-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .5);
+      width: 96px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .mock-bar-track {
+      flex: 1;
+      height: 18px;
+      background: rgba(255, 255, 255, .06);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .mock-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 7px;
+    }
+
+    .mock-bar-val {
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, .8);
+    }
+
+    /* Kendala card */
+    .kendala-card {
+      border-radius: 10px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--pl-pink);
+      background: rgba(255, 0, 127, .06);
+      margin-bottom: 10px;
+    }
+
+    .kendala-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .kendala-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--pl-pink);
+      margin-bottom: 4px;
+    }
+
+    .kendala-body {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .6);
+      line-height: 1.5;
+    }
+
+    .solusi-inline {
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 11.5px;
+      color: var(--pl-green);
+    }
+
+    /* Dev item */
+    .dev-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .07);
+      margin-bottom: 9px;
+    }
+
+    .dev-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, var(--pl-purple), var(--pl-purple2));
+      color: var(--pl-green);
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .dev-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .dev-desc {
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, .5);
+      line-height: 1.5;
+    }
+
+    /* Cover meta */
+    .cover-meta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 36px;
+    }
+
+    .cover-card {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 12px;
+      padding: 16px 22px;
+      min-width: 160px;
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .cover-card-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .4);
+      margin-bottom: 6px;
+    }
+
+    .cover-card-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .member-list {
+      list-style: none;
+      margin-top: 8px;
+    }
+
+    .member-list li {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .85);
+      padding: 3px 0;
+    }
+
+    .member-list li::before {
+      content: '→ ';
+      color: var(--pl-green);
+    }
+
+    /* Slide number badge */
+    .slide-badge {
+      position: absolute;
+      top: 28px;
+      right: 36px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, .2);
+      letter-spacing: 1px;
+    }
+
+    /* Section slide accent line */
+    .section-accent {
+      width: 80px;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--pl-green), var(--pl-cyan));
+      margin: 18px auto;
+    }
+
+    /* Divider */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, .08);
+      margin: 16px 0;
+    }
+
+    /* Highlight strip */
+    .highlight-strip {
+      background: linear-gradient(90deg, rgba(0, 255, 135, .12), rgba(0, 242, 254, .06));
+      border-left: 3px solid var(--pl-green);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, .8);
+      line-height: 1.6;
+      margin-top: 16px;
+    }
+
+    /* Viz label */
+    .viz-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .viz-type-badge {
+      padding: 2px 9px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(0, 255, 135, .15);
+      border: 1px solid rgba(0, 255, 135, .3);
+      color: var(--pl-green);
+    }
+
+    /* Insight card */
+    .insight-card {
+      border-radius: 12px;
+      padding: 16px 18px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .insight-icon {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .insight-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .insight-text {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .55);
+      line-height: 1.6;
+    }
+
+    /* Anim items */
+    .anim-item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .07);
+      margin-bottom: 9px;
+    }
+
+    .anim-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .anim-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .anim-desc {
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, .5);
+    }
+
+    /* Link card */
+    .link-card {
+      border-radius: 14px;
+      padding: 24px 26px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .1);
+      text-align: center;
+    }
+
+    .link-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .link-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: rgba(255, 255, 255, .35);
+      margin-bottom: 6px;
+    }
+
+    .link-url {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--pl-cyan);
+    }
+
+    .link-placeholder {
+      font-size: 13px;
+      font-style: italic;
+      color: rgba(255, 255, 255, .3);
+    }
+
+    /* Conclusion box */
+    .concl-box {
+      background: linear-gradient(135deg, rgba(56, 0, 60, .8), rgba(107, 0, 110, .4));
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 14px;
+      padding: 28px 32px;
+      margin-top: 16px;
+    }
+
+    .concl-box p {
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, .75);
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .concl-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .concl-box strong {
+      color: var(--pl-green);
+    }
+
+    /* ─── NAVIGATION ─────────────────────────────── */
+    .nav-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .12);
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+      z-index: 999;
+    }
+
+    .nav-arrow:hover {
+      background: rgba(255, 255, 255, .15);
+    }
+
+    .nav-arrow.left {
+      left: 16px;
+    }
+
+    .nav-arrow.right {
+      right: 16px;
+    }
+
+    .nav-arrow:disabled {
+      opacity: .2;
+      cursor: not-allowed;
+    }
+
+    /* ─── THUMBNAIL PANEL ────────────────────────── */
+    .thumb-panel {
+      position: fixed;
+      right: 0;
+      top: 48px;
+      bottom: 0;
+      width: 200px;
+      background: rgba(14, 0, 18, .95);
+      border-left: 1px solid rgba(255, 255, 255, .06);
+      overflow-y: auto;
+      padding: 12px;
+      z-index: 888;
+      transform: translateX(100%);
+      transition: transform .3s;
+    }
+
+    .thumb-panel.open {
+      transform: translateX(0);
+    }
+
+    .thumb-item {
+      cursor: pointer;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      border: 1.5px solid rgba(255, 255, 255, .06);
+      transition: border-color .2s;
+      background: rgba(255, 255, 255, .03);
+      padding: 8px;
+    }
+
+    .thumb-item.active {
+      border-color: var(--pl-green);
+    }
+
+    .thumb-item:hover {
+      border-color: rgba(255, 255, 255, .2);
+    }
+
+    .thumb-num {
+      font-size: 10px;
+      color: rgba(255, 255, 255, .3);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .thumb-title {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .65);
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    /* ─── SCALE SLIDE TO FIT ─────────────────────── */
+    #scaleWrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ─── PRINT ──────────────────────────────────── */
+    @media print {
+      body {
+        overflow: visible !important;
+        background: #fff;
+      }
+
+      .toolbar,
+      .nav-arrow,
+      .thumb-panel {
+        display: none !important;
+      }
+
+      .stage {
+        position: static;
+        height: auto;
+      }
+
+      #scaleWrap {
+        display: block;
+        transform: none !important;
+      }
+
+      .slide-deck {
+        width: 100%;
+        height: auto;
+      }
+
+      .slide {
+        position: static !important;
+        display: flex !important;
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        width: 100%;
+        height: 720px;
+        page-break-after: always;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+     TOOLBAR
+════════════════════════════════════════════════ -->
+  <div class="toolbar">
+    <span class="tb-logo">⚽ PL Dashboard</span>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" id="btnPrev">◀ Prev</button>
+    <button class="tb-btn" id="btnNext">Next ▶</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" id="btnThumb">☰ Slides</button>
+    <button class="tb-btn" id="btnFs">⛶ Fullscreen</button>
+    <button class="tb-btn primary" onclick="window.print()">🖨️ Print PDF</button>
+    <div class="tb-sep"></div>
+    <div class="tb-progress">
+      <div class="tb-progress-fill" id="tbFill"></div>
+    </div>
+    <div class="tb-counter">Slide <span id="slideNumDisplay">1</span> / <span id="slideTotalDisplay">1</span></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+     THUMBNAIL PANEL
+════════════════════════════════════════════════ -->
+  <div class="thumb-panel" id="thumbPanel"></div>
+
+  <!-- ═══════════════════════════════════════════════
+     STAGE
+════════════════════════════════════════════════ -->
+  <div class="stage">
+    <div id="scaleWrap">
+      <div class="slide-deck" id="deck">
+
+        <!-- ───────────────────────────────────────────── 
+     SLIDE 1 – COVER
+──────────────────────────────────────────────── -->
+        <div class="slide slide-cover" data-title="Cover">
+          <div class="grid-bg"></div>
+          <div style="position:relative;z-index:2;text-align:center;max-width:820px;padding:0 40px;">
+            <div
+              style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--pl-green);font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:10px;">
+              <span style="display:block;width:32px;height:2px;background:var(--pl-green);border-radius:1px;"></span>
+              Laporan Tugas Besar · Visualisasi Data · Semester 6
+              <span style="display:block;width:32px;height:2px;background:var(--pl-green);border-radius:1px;"></span>
+            </div>
+            <div class="h-cover" style="font-size:46px;">Dashboard Statistik<br />Premier League<br />Berbasis Data Interaktif</div>
+
+            <div class="cover-meta" style="margin-top:20px;gap:12px;">
+              <div class="cover-card" style="min-width:360px;text-align:left;">
+                <div class="cover-card-label" style="text-align:center;margin-bottom:10px;">Anggota Kelompok</div>
+                <ul class="member-list">
+                  <li>Ananda Bintang Saputra <span style="color:rgba(255,255,255,.4);font-size:11px;">(1203230040)</span></li>
+                  <li>Henri Kurniawan Candra <span style="color:rgba(255,255,255,.4);font-size:11px;">(1203230086)</span></li>
+                  <li>Muhamad Adnan <span style="color:rgba(255,255,255,.4);font-size:11px;">(1203230031)</span></li>
+                  <li>Muhammad Muhyi Akbar <span style="color:rgba(255,255,255,.4);font-size:11px;">(1203230090)</span></li>
+                  <li>Muhammad Rizky Ramadhan <span style="color:rgba(255,255,255,.4);font-size:11px;">(1203230055)</span></li>
+                  <li>Jonathan Ferdinan Mayon <span style="color:rgba(255,255,255,.4);font-size:11px;">(1203230087)</span></li>
+                </ul>
+              </div>
+              <div class="cover-card" style="text-align:center;">
+                <div class="cover-card-label" style="margin-bottom:10px;">Institusi</div>
+                <div class="cover-card-value" style="font-size:11px;line-height:1.8;color:rgba(255,255,255,.85);">
+                  Program Studi Sarjana Informatika<br />
+                  <span style="color:rgba(255,255,255,.5);">Direktorat Kampus Surabaya</span><br />
+                  <span style="color:var(--pl-green);font-weight:700;">Universitas Telkom</span><br />
+                  <span style="color:rgba(255,255,255,.4);font-size:13px;">2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ───────────────────────────────────────────── 
+     SLIDE 2 – AGENDA
+──────────────────────────────────────────────── -->
+        <div class="slide slide-light" data-title="Agenda">
+          <div class="grid-bg"></div>
+          <div class="slide-badge">02</div>
+          <div style="position:relative;z-index:2;max-width:900px;margin:0 auto;width:100%;">
+            <div class="slide-label">Presentasi</div>
+            <div class="h1">Agenda Presentasi</div>
+            <div class="divider"></div>
+            <div class="g2" style="margin-top:20px;">
+              <div>
+                <div class="list-item">
+                  <div class="li-icon">🎯</div>
+                  <div>
+                    <div class="li-title">01 · Tujuan Dashboard</div>
+                    <div class="li-desc">Apa yang ingin dicapai dari proyek ini</div>
+                  </div>
+                </div>
+                <div class="list-item">
+                  <div class="li-icon">💡</div>
+                  <div>
+                    <div class="li-title">02 · Alasan Pemilihan Topik</div>
+                    <div class="li-desc">Mengapa Premier League dipilih</div>
+                    <div class="li-desc">Urgensi dan relevansi data Premier League</div>
+                  </div>
+                </div>
+                <div class="list-item">
+                  <div class="li-icon">📡</div>
+                  <div>
+                    <div class="li-title">03 · Sumber & Data</div>
+                    <div class="li-desc">GitHub, Kaggle & API Football-Data.org</div>
+                  </div>
+                </div>
+                <div class="list-item">
+                  <div class="li-icon">🛠️</div>
+                  <div>
+                    <div class="li-title">04 · Teknologi</div>
+                    <div class="li-desc">Stack teknis yang digunakan</div>
+                  </div>
+                </div>
+                <div class="list-item">
+                  <div class="li-icon">📊</div>
+                  <div>
+                    <div class="li-title">05 · Jenis Visualisasi</div>
+                    <div class="li-desc">5 tipe chart yang diimplementasikan</div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="list-item">
+                  <div class="li-icon">🔍</div>
+                  <div>
+                    <div class="li-title">06 · Insight dari Chart</div>
+                    <div class="li-desc">Temuan data yang menarik</div>
+                  </div>
+                </div>
+                <div class="list-item">
+                  <div class="li-icon">🖱️</div>
+                  <div>
+                    <div class="li-title">07 · Fitur Interaktif</div>
+                    <div class="li-desc">Elemen interaktif dashboard</div>
+                  </div>
+                </div>
+                <div class="list-item">
+                  <div class="li-icon">✨</div>
+                  <div>
+                    <div class="li-title">08 · Animasi &amp; Desain Antarmuka</div>
+                    <div class="li-desc">Dynamic Rendering &amp; Rich Hover Tooltips</div>
+                  </div>
+                </div>
+                <div class="list-item">
+                  <div class="li-icon">🚀</div>
+                  <div>
+                    <div class="li-title">09 · Deployment &amp; Links</div>
+                    <div class="li-desc">Streamlit Community Cloud · CI/CD</div>
+                  </div>
+                </div>
+                <div class="list-item">
+                  <div class="li-icon">⚠️</div>
+                  <div>
+                    <div class="li-title">10 · Kendala</div>
+                    <div class="li-desc">Tantangan dalam persiapan data</div>
+                  </div>
+                </div>
+                <div class="list-item">
+                  <div class="li-icon">🏁</div>
+                  <div>
+                    <div class="li-title">11–12 · Kesimpulan &amp; Pengembangan</div>
+                    <div class="li-desc">Temuan &amp; rencana selanjutnya</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ───────────────────────────────────────────── 
+     SLIDE 3 – TUJUAN DASHBOARD
+──────────────────────────────────────────────── -->
+        <div class="slide slide-twocol" data-title="Tujuan Dashboard">
+          <div class="grid-bg"></div>
+          <div class="col-left">
+            <div style="position:relative;z-index:2;">
+              <div class="slide-label">01</div>
+              <div class="h2">Tujuan<br />Dashboard</div>
+              <div style="margin-top:16px;" class="glass green-glow">
+                <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:6px;">Cakupan</div>
+                <div style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;">Dashboard ini dirancang dengan <strong style="color:var(--pl-green);">tujuan strategis</strong> untuk mengubah ribuan baris data Premier League menjadi wawasan visual yang dapat diakses semua kalangan.</div>
+              </div>
+              <div style="margin-top:12px;display:flex;gap:10px;">
+                <div class="kpi" style="flex:1;text-align:center;padding:12px;">
+                  <div class="kpi-label">Klub</div>
+                  <div class="kpi-value" style="font-size:32px;">20</div>
+                </div>
+                <div class="kpi" style="flex:1;text-align:center;padding:12px;">
+                  <div class="kpi-label">Pertandingan</div>
+                  <div class="kpi-value" style="font-size:32px;color:var(--pl-cyan);">380</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="slide-label">3 Tujuan Strategis</div>
+            <div class="list-item">
+              <div class="li-icon">🌐</div>
+              <div>
+                <div class="li-title">Aksesibilitas Data Sepak Bola</div>
+                <div class="li-desc">Menyediakan tempat yang mudah diakses bagi penggemar, jurnalis olahraga, dan analis pemula untuk mengeksplorasi statistik lanjutan tanpa memerlukan pengetahuan SQL atau Python.</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon">🎯</div>
+              <div>
+                <div class="li-title">Penilaian Taktis yang Objektif</div>
+                <div class="li-desc">Membantu mengidentifikasi keefektifan strategi tim melalui KPI seperti persentase penguasaan bola di wilayah lawan, akurasi umpan, dan kualitas dalam menciptakan peluang.</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon">📈</div>
+              <div>
+                <div class="li-title">Perbandingan Historis</div>
+                <div class="li-desc">Memungkinkan pengguna mengkaji dan membandingkan metrik kekuatan tim dari berbagai musim — contohnya Arsenal era Invincibles vs Manchester City musim 2022/2023.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ───────────────────────────────────────────── 
+     SLIDE 4 – ALASAN TOPIK
+──────────────────────────────────────────────── -->
+        <div class="slide slide-twocol" data-title="Alasan Pemilihan Topik">
+          <div class="grid-bg"></div>
+          <div class="col-left">
+            <div style="position:relative;z-index:2;">
+              <div class="slide-label">02</div>
+              <div class="h2">Alasan<br />Pemilihan<br />Topik</div>
+              <div style="margin-top:16px;" class="glass green-glow">
+                <div style="font-size:32px;margin-bottom:6px;">📊</div>
+                <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Era Analitik Sepak Bola</div>
+                <div style="font-size:11px;color:rgba(255,255,255,.5);line-height:1.5;">Sepak bola berkembang dari naluri pelatih menjadi ilmu taktis berbasis data. EPL adalah kompetisi paling unggul dan liga dengan penonton terbanyak di dunia.</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="slide-label">Latar Belakang</div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+              <div class="glass">
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                  <span style="font-size:20px;">🔬</span>
+                  <div>
+                    <div class="h3" style="font-size:14px;margin-bottom:4px;">Tantangan Analitis Nyata</div>
+                    <div class="li-desc">Penilaian pertandingan modern tidak hanya melihat skor akhir. Analisis memerlukan metrik canggih — membedakan operan progresif yang menembus pertahanan vs operan pasif yang berputar di belakang.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="glass cyan-glow">
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                  <span style="font-size:20px;">📡</span>
+                  <div>
+                    <div class="h3" style="font-size:14px;margin-bottom:4px;">Data Publik yang Kaya</div>
+                    <div class="li-desc">EPL menghasilkan data metrik dalam jumlah besar yang beradaptasi secara dinamis setiap minggunya — menjadikannya lokasi ideal untuk eksplorasi ilmu data.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="glass">
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                  <span style="font-size:20px;">💡</span>
+                  <div>
+                    <div class="h3" style="font-size:14px;margin-bottom:4px;">Proof of Concept Big Data</div>
+                    <div class="li-desc">Proyek ini membuktikan bagaimana big data yang kompleks dapat diolah dan divisualisasikan menjadi narasi visual — memungkinkan analisis taktis objektif oleh siapa saja.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ───────────────────────────────────────────── 
+     SLIDE 5 – SUMBER DATA
+──────────────────────────────────────────────── -->
+        <div class="slide slide-twocol" data-title="Sumber Data">
+          <div class="grid-bg"></div>
+          <div class="col-left">
+            <div style="position:relative;z-index:2;">
+              <div class="slide-label">03</div>
+              <div class="h2">Sumber<br />Data</div>
+              <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
+                <div class="glass green-glow" style="padding:14px 16px;">
+                  <div style="font-size:11px;color:var(--pl-green);font-weight:700;letter-spacing:1px;margin-bottom:4px;">UTAMA</div>
+                  <div style="font-size:13px;font-weight:700;color:#fff;">🐙 GitHub Datasets</div>
+                  <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:3px;">Repositori publik · Catatan historis multi-musim</div>
+                </div>
+                <div class="glass cyan-glow" style="padding:14px 16px;">
+                  <div style="font-size:11px;color:var(--pl-cyan);font-weight:700;letter-spacing:1px;margin-bottom:4px;">SEKUNDER</div>
+                  <div style="font-size:13px;font-weight:700;color:#fff;">📊 Kaggle</div>
+                  <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:3px;">Dataset Liga Utama Inggris · Terstruktur</div>
+                </div>
+                <div class="glass" style="padding:14px 16px;">
+                  <div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:700;letter-spacing:1px;margin-bottom:4px;">API</div>
+                  <div style="font-size:13px;font-weight:700;color:#fff;">⚽ Football-Data.org</div>
+                  <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:3px;">Arsip statistik terstruktur · Terverifikasi</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="slide-label">Alasan Pemilihan Sumber</div>
+            <div class="list-item">
+              <div class="li-icon">✅</div>
+              <div>
+                <div class="li-title">Kelengkapan Variabel Canggih</div>
+                <div class="li-desc">Mencakup metrik Expected Goals (xG), penguasaan bola, dan statistik lanjutan yang tidak tersedia di sumber dasar.</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon">🔍</div>
+              <div>
+                <div class="li-title">Kejelasan Data Mentah Tinggi</div>
+                <div class="li-desc">Meminimalkan gangguan (noise) pada data sehingga proses wrangling lebih efisien dan hasil analisis lebih akurat.</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon">🏆</div>
+              <div>
+                <div class="li-title">Reputasi Terverifikasi Komunitas</div>
+                <div class="li-desc">Sumber-sumber ini telah diverifikasi oleh komunitas data sains — menjamin keandalan pencatatan historis jangka panjang.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ───────────────────────────────────────────── 
+     SLIDE 6 – DATA YANG DIGUNAKAN
+──────────────────────────────────────────────── -->
+        <div class="slide slide-light" data-title="Data yang Digunakan">
+          <div class="grid-bg"></div>
+          <div class="slide-badge">06</div>
+          <div style="position:relative;z-index:2;max-width:1060px;margin:0 auto;width:100%;">
+            <div class="slide-label">03 · Detail</div>
+            <div class="h1" style="font-size:28px;">Data yang Digunakan</div>
+            <div class="divider" style="margin:8px 0;"></div>
+            <table class="slide-table" style="margin-top:8px;">
+              <thead>
+                <tr>
+                  <th>Kategori</th>
+                  <th>Variabel Utama</th>
+                  <th>Tipe</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="color:var(--pl-green);font-weight:700;">📋 Metrik Klasemen Dasar</td>
+                  <td>Poin (Pts), Kemenangan (W), Hasil Imbang (D), Kekalahan (L), Gol yang Diciptakan (GF), Gol yang Diterima (GA), Selisih Gol (GD)</td>
+                  <td><span class="pill pill-cyan" style="font-size:10px;padding:2px 8px;">Integer</span></td>
+                </tr>
+                <tr>
+                  <td style="color:var(--pl-cyan);font-weight:700;">🎯 Metrik Performa Lanjutan</td>
+                  <td>Expected Goals (xG) — probabilitas tembakan menjadi gol, Expected Assists (xA)</td>
+                  <td><span class="pill pill-cyan" style="font-size:10px;padding:2px 8px;">Float</span></td>
+                </tr>
+                <tr>
+                  <td style="color:rgba(255,215,0,.9);font-weight:700;">⚽ Distribusi Penguasaan</td>
+                  <td>Ball Possession (%), jumlah umpan berhasil, ketepatan umpan per pertandingan</td>
+                  <td><span class="pill pill-gold" style="font-size:10px;padding:2px 8px;">Float / %</span></td>
+                </tr>
+                <tr>
+                  <td style="color:var(--pl-pink);font-weight:700;">🟨 Kedisiplinan &amp; Intensitas</td>
+                  <td>Kartu kuning, kartu merah, jumlah pelanggaran (fouls), tekel yang berhasil</td>
+                  <td><span class="pill pill-cyan" style="font-size:10px;padding:2px 8px;">Integer</span></td>
+                </tr>
+                <tr>
+                  <td style="color:rgba(255,255,255,.8);font-weight:700;">🥅 Spasial &amp; Ofensif</td>
+                  <td>Shots on Target, tembakan melenceng, kick sudut (Corners)</td>
+                  <td><span class="pill pill-white" style="font-size:10px;padding:2px 8px;">Integer</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ───────────────────────────────────────────── 
+     SLIDE 7 – TEKNOLOGI
+──────────────────────────────────────────────── -->
+        <div class="slide slide-twocol" data-title="Teknologi">
+          <div class="grid-bg"></div>
+          <div class="col-left">
+            <div style="position:relative;z-index:2;">
+              <div class="slide-label">04</div>
+              <div class="h2">Teknologi<br />yang<br />Digunakan</div>
+              <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;">
+                <span class="pill pill-green" style="font-size:13px;padding:8px 16px;justify-content:center;">🐍 Python 3</span>
+                <span class="pill pill-cyan" style="font-size:13px;padding:8px 16px;justify-content:center;">🚀 Streamlit</span>
+                <span class="pill pill-white" style="font-size:13px;padding:8px 16px;justify-content:center;">🐼 Pandas</span>
+                <span class="pill pill-pink" style="font-size:13px;padding:8px 16px;justify-content:center;">📈 Plotly</span>
+                <span class="pill pill-gold" style="font-size:13px;padding:8px 16px;justify-content:center;">🐙 GitHub + CI/CD</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="slide-label">Detail Teknologi</div>
+            <div class="list-item">
+              <div class="li-icon">🐍</div>
+              <div>
+                <div class="li-title">Python 3</div>
+                <div class="li-desc">Bahasa pemrograman utama untuk pengolahan data, kalkulasi statistik, dan logika bisnis dashboard.</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon">🚀</div>
+              <div>
+                <div class="li-title">Streamlit</div>
+                <div class="li-desc">Framework web Python untuk membangun dashboard interaktif dengan cepat — komponen widget, chart, dan layout tersedia built-in.</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon">🐼</div>
+              <div>
+                <div class="li-title">Pandas + NumPy</div>
+                <div class="li-desc">Library pengolahan dan manipulasi dataframe — filtering, groupby, merge, dan kalkulasi metrik lanjutan (xG, dll).</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <div class="li-icon">📈</div>
+              <div>
+                <div class="li-title">Plotly</div>
+                <div class="li-desc">Library visualisasi interaktif untuk semua jenis chart (line, bar, scatter, heatmap) dengan tooltip dan zoom built-in.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────────
+     SLIDE 8 – ANIMASI & DESAIN ANTARMUKA
+──────────────────────────────────────────────── -->
+        <div class="slide slide-twocol" data-title="Animasi & Desain Antarmuka">
+          <div class="grid-bg"></div>
+          <div class="col-left">
+            <div style="position:relative;z-index:2;">
+              <div class="slide-label">08</div>
+              <div class="h2">Animasi &amp;<br />Desain<br />Antarmuka</div>
+              <div style="margin-top:16px;" class="glass cyan-glow">
+                <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:6px;">Filosofi UX</div>
+                <div style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;">Fokus pada <strong style="color:var(--pl-cyan);">User Experience (UX)</strong> yang halus — setiap interaksi dirancang responsif dan informatif tanpa membebani tampilan.</div>
+              </div>
+              <div style="margin-top:14px;" class="glass green-glow">
+                <div style="font-size:11px;color:var(--pl-green);font-weight:700;margin-bottom:6px;letter-spacing:1px;">PRINSIP DESAIN</div>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:var(--pl-green);flex-shrink:0;"></span>
+                    <span style="font-size:12px;color:rgba(255,255,255,.7);">Responsif &amp; real-time</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:var(--pl-cyan);flex-shrink:0;"></span>
+                    <span style="font-size:12px;color:rgba(255,255,255,.7);">Informatif tanpa clutter</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:var(--pl-gold);flex-shrink:0;"></span>
+                    <span style="font-size:12px;color:rgba(255,255,255,.7);">Performa tetap optimal</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="slide-label">2 Fitur Antarmuka Utama</div>
+
+            <!-- Dynamic Rendering -->
+            <div style="border-radius:12px;padding:22px 24px;background:rgba(0,255,135,.06);border:1px solid rgba(0,255,135,.2);margin-bottom:14px;">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,rgba(0,255,135,.2),rgba(0,242,254,.1));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">⚡</div>
+                <div>
+                  <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:2px;">Dynamic Rendering</div>
+                  <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--pl-green);font-weight:700;">Real-time Update</div>
+                </div>
+              </div>
+              <div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.65;">
+                Setiap kali pengguna berinteraksi dengan <strong style="color:var(--pl-green);">filter sidebar</strong>, secara otomatis memicu pembaruan grafik di layar <strong style="color:#fff;">tanpa perlu melakukan refresh total</strong> pada browser. Perubahan data tercermin langsung pada semua chart yang aktif secara bersamaan.
+              </div>
+              <!-- Visual indicator -->
+              <div style="margin-top:14px;display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(0,255,135,.06);border-radius:8px;border:1px dashed rgba(0,255,135,.2);">
+                <div style="display:flex;gap:5px;align-items:center;">
+                  <div style="width:28px;height:10px;background:rgba(255,255,255,.1);border-radius:3px;position:relative;overflow:hidden;">
+                    <div style="width:60%;height:100%;background:var(--pl-green);border-radius:3px;animation:none;"></div>
+                  </div>
+                  <span style="font-size:9px;color:rgba(255,255,255,.4);">Filter</span>
+                </div>
+                <span style="font-size:11px;color:rgba(255,255,255,.4);">→</span>
+                <span style="font-size:11px;color:var(--pl-green);font-weight:700;">Chart Update Otomatis</span>
+                <span style="font-size:10px;color:rgba(255,255,255,.3);">~0ms delay</span>
+              </div>
+            </div>
+
+            <!-- Rich Hover Tooltips -->
+            <div style="border-radius:12px;padding:22px 24px;background:rgba(0,242,254,.04);border:1px solid rgba(0,242,254,.2);">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,rgba(0,242,254,.2),rgba(255,215,0,.1));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🖱️</div>
+                <div>
+                  <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:2px;">Rich Hover Tooltips</div>
+                  <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--pl-cyan);font-weight:700;">Contextual Info</div>
+                </div>
+              </div>
+              <div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.65;">
+                Setiap elemen visual (titik pada grafik garis atau batang pada grafik kolom) dilengkapi dengan <strong style="color:var(--pl-cyan);">tooltip otomatis</strong> saat kursor diarahkan — menyajikan informasi rinci seperti <strong style="color:#fff;">Nama Pemain</strong>, <strong style="color:#fff;">Menit Terjadinya Gol</strong>, atau tingkat akurasi tanpa membuat tampilan menjadi sempit.
+              </div>
+              <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                <span style="font-size:11px;padding:3px 10px;background:rgba(0,242,254,.1);border:1px solid rgba(0,242,254,.25);border-radius:100px;color:var(--pl-cyan);">📍 Nama Pemain</span>
+                <span style="font-size:11px;padding:3px 10px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.25);border-radius:100px;color:var(--pl-gold);">⏱️ Menit Gol</span>
+                <span style="font-size:11px;padding:3px 10px;background:rgba(0,255,135,.08);border:1px solid rgba(0,255,135,.25);border-radius:100px;color:var(--pl-green);">🎯 Akurasi %</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────────
+     SLIDE 9 – DEPLOYMENT
+──────────────────────────────────────────────── -->
+        <div class="slide slide-light" data-title="Deployment">
+          <div class="grid-bg"></div>
+          <div class="slide-badge">09</div>
+          <div style="position:relative;z-index:2;max-width:980px;margin:0 auto;width:100%;">
+            <div class="slide-label">09</div>
+            <div class="h1" style="font-size:30px;">Deployment &amp; Links</div>
+            <div class="divider"></div>
+
+            <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:18px;margin-top:14px;">
+              <!-- Left: Deployment info -->
+              <div>
+                <div style="background:linear-gradient(135deg,rgba(0,255,135,.07),rgba(0,242,254,.04));border:1px solid rgba(0,255,135,.2);border-radius:12px;padding:16px 18px;margin-bottom:12px;">
+                  <div style="font-size:11px;color:var(--pl-green);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Platform Hosting</div>
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <span style="font-size:28px;">☁️</span>
+                    <div>
+                      <div style="font-size:16px;font-weight:800;color:#fff;font-family:'Outfit',sans-serif;">Streamlit Community Cloud</div>
+                      <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:2px;">Platform as a Service (PaaS) · Gratis &amp; Publik</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="list-item" style="padding:12px 14px;margin-bottom:10px;">
+                  <div class="li-icon" style="font-size:18px;">🔄</div>
+                  <div>
+                    <div class="li-title" style="font-size:12px;">CI/CD Otomatis</div>
+                    <div class="li-desc">Terhubung dengan <strong style="color:#fff;">GitHub master branch</strong> — setiap <code style="color:var(--pl-cyan);background:rgba(0,242,254,.08);padding:1px 5px;border-radius:3px;">git push</code> otomatis men-trigger redeploy dashboard tanpa campur tangan manual.</div>
+                  </div>
+                </div>
+                <div class="list-item" style="padding:12px 14px;margin-bottom:10px;">
+                  <div class="li-icon" style="font-size:18px;">⚡</div>
+                  <div>
+                    <div class="li-title" style="font-size:12px;">Zero-Config Server Management</div>
+                    <div class="li-desc">PaaS menjamin setiap perubahan kode (commit) di master branch akan memperbarui tampilan dashboard secara langsung <strong style="color:var(--pl-green);">tanpa pengaturan server manual</strong>.</div>
+                  </div>
+                </div>
+                <div class="list-item" style="padding:12px 14px;">
+                  <div class="li-icon" style="font-size:18px;">🐙</div>
+                  <div>
+                    <div class="li-title" style="font-size:12px;">Version Control</div>
+                    <div class="li-desc">Seluruh source code dikelola via <strong style="color:#fff;">GitHub</strong> — commit history, branching, dan deployment pipeline terintegrasi penuh.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Links -->
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <!-- CI/CD Flow Diagram -->
+                <div class="glass" style="padding:14px 16px;">
+                  <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;font-weight:700;letter-spacing:1px;">ALUR CI/CD</div>
+                  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                    <div style="padding:6px 12px;background:rgba(255,255,255,.07);border-radius:7px;font-size:12px;font-weight:700;color:#fff;">💻 Code</div>
+                    <span style="color:var(--pl-green);font-weight:700;">→</span>
+                    <div style="padding:6px 12px;background:rgba(0,255,135,.1);border:1px solid rgba(0,255,135,.3);border-radius:7px;font-size:12px;font-weight:700;color:var(--pl-green);">git push</div>
+                    <span style="color:var(--pl-green);font-weight:700;">→</span>
+                    <div style="padding:6px 12px;background:rgba(0,242,254,.1);border:1px solid rgba(0,242,254,.25);border-radius:7px;font-size:12px;font-weight:700;color:var(--pl-cyan);">Auto Deploy</div>
+                    <span style="color:var(--pl-cyan);font-weight:700;">→</span>
+                    <div style="padding:6px 12px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);border-radius:7px;font-size:12px;font-weight:700;color:var(--pl-gold);">🟢 Live</div>
+                  </div>
+                </div>
+
+                <div class="link-card" style="flex:1;">
+                  <div class="link-icon">🌐</div>
+                  <div class="link-label">Live Dashboard</div>
+                  <div class="link-url" style="font-size:11.5px;word-break:break-all;">premiere-league-football-statistics.streamlit.app</div>
+                </div>
+                <div class="link-card" style="flex:1;">
+                  <div class="link-icon">🐙</div>
+                  <div class="link-label">GitHub Repository</div>
+                  <div class="link-url" style="font-size:11.5px;word-break:break-all;">github.com/AnandaBintang/<br />premiere-league-football-statistics</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────────
+     SLIDE 10 – KENDALA
+──────────────────────────────────────────────── -->
+        <div class="slide slide-twocol" data-title="Kendala">
+          <div class="grid-bg"></div>
+          <div class="col-left">
+            <div style="position:relative;z-index:2;">
+              <div class="slide-label">10</div>
+              <div class="h2">Kendala<br />yang<br />Dihadapi</div>
+              <div style="margin-top:20px;" class="glass pink-glow">
+                <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:6px;">Bobot Waktu</div>
+                <div style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;">Proses <strong style="color:var(--pl-pink);">Persiapan Data &amp; Wrangling</strong> menghabiskan sekitar <strong style="color:#fff;">40%</strong> dari total waktu pengembangan.</div>
+              </div>
+              <div style="margin-top:14px;">
+                <!-- Time bar -->
+                <div style="margin-bottom:6px;">
+                  <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;">
+                    <span>Data Wrangling</span>
+                    <span style="color:var(--pl-pink);font-weight:700;">40%</span>
+                  </div>
+                  <div style="height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;">
+                    <div style="width:40%;height:100%;background:linear-gradient(90deg,var(--pl-pink),rgba(255,0,127,.5));border-radius:4px;"></div>
+                  </div>
+                </div>
+                <div style="margin-bottom:6px;">
+                  <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;">
+                    <span>Development &amp; UI</span>
+                    <span style="color:var(--pl-green);font-weight:700;">40%</span>
+                  </div>
+                  <div style="height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;">
+                    <div style="width:40%;height:100%;background:linear-gradient(90deg,var(--pl-green),rgba(0,255,135,.4));border-radius:4px;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;">
+                    <span>Testing &amp; Deploy</span>
+                    <span style="color:var(--pl-cyan);font-weight:700;">20%</span>
+                  </div>
+                  <div style="height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;">
+                    <div style="width:20%;height:100%;background:linear-gradient(90deg,var(--pl-cyan),rgba(0,242,254,.4));border-radius:4px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="slide-label">2 Kendala Utama &amp; Solusi</div>
+
+            <!-- Kendala 1 -->
+            <div style="border-radius:12px;padding:18px 20px;border-left:3px solid var(--pl-pink);background:rgba(255,0,127,.05);margin-bottom:14px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                <span style="font-size:16px;">⚠️</span>
+                <div style="font-size:14px;font-weight:700;color:var(--pl-pink);">Ketidakkonsistenan Format Data</div>
+              </div>
+              <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:10px;">
+                Perbedaan dalam penamaan klub dari berbagai sumber — contoh: <span style="color:rgba(255,255,255,.85);font-style:italic;">"Man Utd"</span> versus <span style="color:rgba(255,255,255,.85);font-style:italic;">"MUFC"</span> — menyebabkan kegagalan saat data di-<em>merge</em> antar sumber.
+              </div>
+              <div style="padding:8px 12px;background:rgba(0,255,135,.06);border:1px solid rgba(0,255,135,.15);border-radius:8px;display:flex;gap:8px;align-items:flex-start;">
+                <span style="color:var(--pl-green);font-size:14px;flex-shrink:0;">✅</span>
+                <div style="font-size:12px;color:rgba(255,255,255,.7);line-height:1.5;">
+                  <strong style="color:var(--pl-green);">Solusi:</strong> Membuat kamus pemetaan (<em>mapping dictionary</em>) di Pandas untuk mengkonsolidasikan entitas ke dalam satu kunci utama yang konsisten.
+                </div>
+              </div>
+            </div>
+
+            <!-- Kendala 2 -->
+            <div style="border-radius:12px;padding:18px 20px;border-left:3px solid rgba(255,165,0,.8);background:rgba(255,165,0,.04);">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                <span style="font-size:16px;">⚠️</span>
+                <div style="font-size:14px;font-weight:700;color:rgba(255,165,0,.9);">Nilai yang Hilang (Null/NaN)</div>
+              </div>
+              <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:10px;">
+                Tidak adanya statistik modern seperti <strong style="color:#fff;">Expected Goals (xG)</strong> pada dataset yang sudah lama menyebabkan kesalahan perhitungan saat data diolah bersama dataset yang lebih baru.
+              </div>
+              <div style="padding:8px 12px;background:rgba(0,255,135,.06);border:1px solid rgba(0,255,135,.15);border-radius:8px;display:flex;gap:8px;align-items:flex-start;">
+                <span style="color:var(--pl-green);font-size:14px;flex-shrink:0;">✅</span>
+                <div style="font-size:12px;color:rgba(255,255,255,.7);line-height:1.5;">
+                  <strong style="color:var(--pl-green);">Solusi:</strong> Penyaringan kondisional pada logika program — dashboard tetap berfungsi dengan baik meskipun nilai xG tidak tersedia, tanpa menyebabkan kegagalan aplikasi.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────────
+     SLIDE 11 – KESIMPULAN
+──────────────────────────────────────────────── -->
+        <div class="slide slide-twocol" data-title="Kesimpulan">
+          <div class="grid-bg"></div>
+          <div class="col-left">
+            <div style="position:relative;z-index:2;">
+              <div class="slide-label">11</div>
+              <div class="h2">Kesimpulan</div>
+              <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;">
+                <div class="kpi" style="text-align:center;padding:14px;">
+                  <div class="kpi-label">Visualisasi</div>
+                  <div class="kpi-value" style="color:var(--pl-green);">5+</div>
+                  <div class="kpi-sub">Jenis Chart</div>
+                </div>
+                <div class="kpi" style="text-align:center;padding:14px;">
+                  <div class="kpi-label">Fitur Interaktif</div>
+                  <div class="kpi-value" style="color:var(--pl-cyan);">3</div>
+                  <div class="kpi-sub">Filter, Slider, Toggle</div>
+                </div>
+                <div class="kpi" style="text-align:center;padding:14px;">
+                  <div class="kpi-label">Deployment</div>
+                  <div class="kpi-value" style="font-size:18px;color:var(--pl-gold);">CI/CD</div>
+                  <div class="kpi-sub">Streamlit Cloud</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="slide-label">Ringkasan Akhir</div>
+            <div class="concl-box" style="padding:20px 22px;">
+              <p>Pengembangan <strong>Dashboard Statistik Premier League</strong> berhasil mengubah ribuan baris data teks yang belum diproses menjadi sebuah karya visual analitik yang <strong style="color:var(--pl-green);">ramah pengguna</strong>.</p>
+              <p>Dengan menggabungkan kemampuan analitik <strong>Python</strong> dan kelincahan antarmuka <strong>Streamlit</strong>, proyek ini menegaskan bahwa metrik performa sepak bola yang kompleks dapat dipahami dengan mudah oleh <strong>berbagai jenis audiens</strong>.</p>
+              <p>Hasil dashboard mengindikasikan bahwa kombinasi antara <strong>disiplin dalam taktik pertahanan</strong> (minimnya kesalahan dan kartu kuning) serta <strong>efisiensi dalam pengoptimalan Expected Goals (xG)</strong> adalah landasan utama yang menentukan karakter juara dari klub-klub Premier League saat ini.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────────
+     SLIDE 12 – PENGEMBANGAN SELANJUTNYA
+──────────────────────────────────────────────── -->
+        <div class="slide slide-light" data-title="Pengembangan Selanjutnya">
+          <div class="grid-bg"></div>
+          <div class="slide-badge">12</div>
+          <div style="position:relative;z-index:2;max-width:960px;margin:0 auto;width:100%;">
+            <div class="slide-label">12</div>
+            <div class="h1" style="font-size:30px;">Pengembangan Selanjutnya</div>
+            <div class="divider"></div>
+            <p style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:18px;line-height:1.5;">Proyek ini dirancang agar terukur <em>(scalable)</em>. Beberapa rencana pengembangan arsitektural dan analitik untuk versi selanjutnya:</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+
+              <!-- Item 1 -->
+              <div style="border-radius:12px;padding:20px 18px;background:rgba(255,255,255,.04);border:1px solid rgba(0,255,135,.15);border-top:3px solid var(--pl-green);">
+                <div style="font-size:28px;margin-bottom:12px;">🤖</div>
+                <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1.3;">Integrasi Machine Learning</div>
+                <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;">Mengimplementasikan <strong style="color:rgba(255,255,255,.8);">Logistic Regression</strong> atau <strong style="color:rgba(255,255,255,.8);">SVM</strong> untuk membangun fitur <span style="color:var(--pl-green);">"Match Predictor"</span> — memprediksi probabilitas hasil pertandingan berdasarkan data historis dan head-to-head.</div>
+                <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;">
+                  <span style="font-size:10px;padding:2px 8px;background:rgba(0,255,135,.1);border:1px solid rgba(0,255,135,.25);border-radius:100px;color:var(--pl-green);">Logistic Regression</span>
+                  <span style="font-size:10px;padding:2px 8px;background:rgba(0,255,135,.1);border:1px solid rgba(0,255,135,.25);border-radius:100px;color:var(--pl-green);">SVM</span>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div style="border-radius:12px;padding:20px 18px;background:rgba(255,255,255,.04);border:1px solid rgba(0,242,254,.15);border-top:3px solid var(--pl-cyan);">
+                <div style="font-size:28px;margin-bottom:12px;">📡</div>
+                <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1.3;">Live Tracker API</div>
+                <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;">Mengganti data statis (CSV) dengan integrasi <strong style="color:rgba(255,255,255,.8);">WebSocket API</strong> agar dashboard dapat menyajikan pembaruan <span style="color:var(--pl-cyan);">skor dan statistik pertandingan secara real-time</span> saat laga berlangsung.</div>
+                <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;">
+                  <span style="font-size:10px;padding:2px 8px;background:rgba(0,242,254,.1);border:1px solid rgba(0,242,254,.25);border-radius:100px;color:var(--pl-cyan);">WebSocket API</span>
+                  <span style="font-size:10px;padding:2px 8px;background:rgba(0,242,254,.1);border:1px solid rgba(0,242,254,.25);border-radius:100px;color:var(--pl-cyan);">Real-time</span>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div style="border-radius:12px;padding:20px 18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,215,0,.15);border-top:3px solid var(--pl-gold);">
+                <div style="font-size:28px;margin-bottom:12px;">🗺️</div>
+                <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1.3;">Analisis Spasial Pemain</div>
+                <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;">Menambahkan visualisasi <strong style="color:rgba(255,255,255,.8);">Heatmaps</strong> berbasis tracking data untuk melacak pergerakan dan titik sentuhan bola pemain di lapangan — guna analisis taktis yang lebih mendalam.</div>
+                <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;">
+                  <span style="font-size:10px;padding:2px 8px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);border-radius:100px;color:var(--pl-gold);">Heatmap</span>
+                  <span style="font-size:10px;padding:2px 8px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);border-radius:100px;color:var(--pl-gold);">Tracking Data</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────────
+     SLIDE 13 – PENUTUP
+──────────────────────────────────────────────── -->
+        <div class="slide slide-cover" data-title="Penutup">
+          <div class="grid-bg"></div>
+          <div style="position:relative;z-index:2;text-align:center;max-width:700px;padding:0 40px;">
+            <div style="font-size:72px;margin-bottom:20px;">⚽</div>
+            <div class="h-cover" style="font-size:52px;">Terima Kasih!</div>
+            <div class="h-sub" style="margin-bottom:24px;">Premier League Visual Statistics Dashboard</div>
+            <div class="section-accent"></div>
+            <div style="font-size:15px;color:rgba(255,255,255,.55);margin:20px 0 28px;line-height:1.7;">
+              Mata Kuliah Visualisasi Data · Semester 6 · 2025/2026<br />
+              <span style="color:rgba(255,255,255,.3);">AnandaBintang/premiere-league-football-statistics</span>
+            </div>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+              <span class="pill pill-green">🐍 Python 3</span>
+              <span class="pill pill-cyan">🚀 Streamlit</span>
+              <span class="pill pill-white">🐼 Pandas</span>
+              <span class="pill pill-pink">📈 Plotly</span>
+              <span class="pill pill-gold">🐙 GitHub CI/CD</span>
+            </div>
+            <div style="margin-top:28px;font-size:13px;color:rgba(255,255,255,.3);">
+              Ada pertanyaan? 🙋
+            </div>
+          </div>
+        </div>
+
+
+      </div><!-- end deck -->
+    </div><!-- end scaleWrap -->
+  </div><!-- end stage -->
+
+  <!-- Nav arrows -->
+  <button class="nav-arrow left" id="navLeft">◀</button>
+  <button class="nav-arrow right" id="navRight">▶</button>
+
+  <script>
+    // ─── STATE ────────────────────────────────────
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    let current = 0;
+
+    // ─── ELEMENTS ─────────────────────────────────
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const navLeft = document.getElementById('navLeft');
+    const navRight = document.getElementById('navRight');
+    const btnThumb = document.getElementById('btnThumb');
+    const btnFs = document.getElementById('btnFs');
+    const thumbPanel = document.getElementById('thumbPanel');
+    const fillEl = document.getElementById('tbFill');
+    const numEl = document.getElementById('slideNumDisplay');
+    const totEl = document.getElementById('slideTotalDisplay');
+    const scaleWrap = document.getElementById('scaleWrap');
+    const deck = document.getElementById('deck');
+
+    // ─── SCALE ────────────────────────────────────
+    function scaleSlides() {
+      const sw = scaleWrap.clientWidth;
+      const sh = scaleWrap.clientHeight;
+      const SLIDE_W = 1280;
+      const SLIDE_H = 720;
+      const scale = Math.min(sw / SLIDE_W, sh / SLIDE_H) * 0.96;
+      deck.style.transform = `scale(${scale})`;
+    }
+    window.addEventListener('resize', scaleSlides);
+    scaleSlides();
+
+    // ─── RENDER ───────────────────────────────────
+    function showSlide(idx, dir = 1) {
+      const prev = slides[current];
+      current = Math.max(0, Math.min(total - 1, idx));
+      const next = slides[current];
+
+      prev.classList.remove('active');
+      prev.style.display = 'none';
+
+      next.style.display = 'flex';
+      next.classList.add('active');
+
+      // Refresh thumbnail
+      document.querySelectorAll('.thumb-item').forEach((el, i) => {
+        el.classList.toggle('active', i === current);
+      });
+
+      // Update toolbar
+      numEl.textContent = current + 1;
+      fillEl.style.width = `${((current + 1) / total) * 100}%`;
+
+      // Arrows
+      navLeft.disabled = current === 0;
+      btnPrev.disabled = current === 0;
+      navRight.disabled = current === total - 1;
+      btnNext.disabled = current === total - 1;
+
+      // Scroll thumb into view
+      const thumbItems = document.querySelectorAll('.thumb-item');
+      if (thumbItems[current]) thumbItems[current].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    // ─── THUMBNAIL BUILD ──────────────────────────
+    totEl.textContent = total;
+    slides.forEach((s, i) => {
+      const t = s.dataset.title || `Slide ${i + 1}`;
+      const d = document.createElement('div');
+      d.className = 'thumb-item' + (i === 0 ? ' active' : '');
+      d.innerHTML = `<div class="thumb-num">${String(i + 1).padStart(2, '0')}</div><div class="thumb-title">${t}</div>`;
+      d.addEventListener('click', () => showSlide(i));
+      thumbPanel.appendChild(d);
+    });
+    showSlide(0);
+
+    // ─── NAVIGATION ───────────────────────────────
+    btnNext.addEventListener('click', () => showSlide(current + 1));
+    btnPrev.addEventListener('click', () => showSlide(current - 1));
+    navRight.addEventListener('click', () => showSlide(current + 1));
+    navLeft.addEventListener('click', () => showSlide(current - 1));
+
+    btnThumb.addEventListener('click', () => {
+      thumbPanel.classList.toggle('open');
+    });
+
+    btnFs.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        btnFs.textContent = '✕ Exit';
+      } else {
+        document.exitFullscreen();
+        btnFs.textContent = '⛶ Fullscreen';
+      }
+    });
+
+    // ─── KEYBOARD ─────────────────────────────────
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); showSlide(current + 1); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); showSlide(current - 1); }
+      if (e.key === 'Home') { e.preventDefault(); showSlide(0); }
+      if (e.key === 'End') { e.preventDefault(); showSlide(total - 1); }
+      if (e.key === 'f' || e.key === 'F') btnFs.click();
+      if (e.key === 'Escape') thumbPanel.classList.remove('open');
+    });
+
+    // ─── TOUCH/SWIPE ──────────────────────────────
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) { if (dx < 0) showSlide(current + 1); else showSlide(current - 1); }
+    });
+
+    // Re-scale on fullscreen change
+    document.addEventListener('fullscreenchange', scaleSlides);
+  </script>
+</body>
+
+</html>
